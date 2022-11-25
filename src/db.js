@@ -1,11 +1,13 @@
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PORT } = require("../config.js");
 
-const sequelize = new Sequelize("MPF_Gestion_De_Actas", "root", "12345", {
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   //* Conexion con DB
-  host: process.env.HOST || "localhost",
-  dialect: "postgres",
+  host: DB_HOST,
+  port: DB_PORT,
+  dialect: "mysql",
   logging: false,
 });
 
