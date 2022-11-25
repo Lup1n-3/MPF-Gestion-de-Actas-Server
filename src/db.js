@@ -2,10 +2,10 @@ const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
 
-const sequelize = new Sequelize("MPF_Word_App", "root", "12345", {
-  //* Coneccion con DB
-  host: "localhost",
-  dialect: "mysql",
+const sequelize = new Sequelize("MPF_Gestion_De_Actas", "root", "12345", {
+  //* Conexion con DB
+  host: process.env.HOST || "localhost",
+  dialect: "postgres",
   logging: false,
 });
 
