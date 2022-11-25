@@ -1,10 +1,10 @@
 const server = require("./src/app.js");
 const { db } = require("./src/db.js");
-const { PORT } = require("./config.js");
+const { DB_PORT } = require("./config.js");
 
 //* Pisa la DB cada vez que se salva el Backend
 db.sync().then(() => {
-  server.listen(PORT, () => {
-    console.log("--->   Servidor en puerto", PORT); // eslint-disable-line no-console
+  server.listen(DB_PORT, () => {
+    console.log("--->   Servidor en puerto", DB_PORT); // eslint-disable-line no-console
   });
 });
