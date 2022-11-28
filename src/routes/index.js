@@ -9,6 +9,7 @@ const addIntegrantes = require("../controllers/addIntegrantes");
 const updateBolsa = require("../controllers/updateBolsa");
 const updateActa = require("../controllers/updateActa");
 const removeIntegrante = require("../controllers/removeIntegrante");
+const createBugReport = require("../controllers/createBugReport");
 
 //* Generamos las rutas
 router.use("/addActa", addActa);
@@ -20,5 +21,6 @@ router.use("/getEfectos", getEfectos);
 router.use("/updateBolsa", updateBolsa);
 router.use("/updateActa", updateActa);
 router.use("/removeIntegrante", removeIntegrante);
+router.use("/createBugReport", createBugReport);
 
 module.exports = router;
