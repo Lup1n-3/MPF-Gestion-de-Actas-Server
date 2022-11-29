@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
         defaultValue: new Date().toLocaleString(),
       },
       estado: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("en proceso", "completo", "deprecado"),
         defaultValue: "en proceso",
       },
       observaciones: {

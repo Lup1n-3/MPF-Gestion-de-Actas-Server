@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
     "Efecto",
     {
       tipoDeElemento: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("celular", "tablet", "notebook", "pc", "hdd", "ssd", "sim", "sd"),
       },
       marca: {
         type: DataTypes.STRING,
@@ -23,27 +23,30 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       tipoSeguridad: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("patrón", "contraseña", "ninguno", "pin", "facial", "huella"),
       },
       desbloqueo: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("si", "no"),
       },
       herramientaSoft: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("ninguna", "UFED"),
       },
       tipoExtraccion: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("ninguna", "logica", "fisica", "ambas"),
       },
       descripcionTarea: {
         type: DataTypes.STRING,
       },
       estado: {
+        type: DataTypes.ENUM("en proceso", "completo"),
+      },
+      fecha: {
         type: DataTypes.STRING,
+        defaultValue: new Date().toLocaleString(),
       },
     },
     {
-      createdAt: "created_at",
-      updatedAt: "last_update",
+      timestamps: false,
     }
   );
 };

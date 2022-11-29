@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
         type: DataTypes.BIGINT,
       },
       colorPrecinto: {
-        type: DataTypes.ENUM("rojo", "verde"),
+        type: DataTypes.ENUM("rojo", "verde", "blanco"),
       },
       observaciones: {
         type: DataTypes.STRING,
@@ -21,13 +21,16 @@ module.exports = (sequelize) => {
         defaultValue: null,
       },
       estado: {
-        type: DataTypes.ENUM("en proceso", "deprecado", "completo"),
+        type: DataTypes.ENUM("en proceso", "completo", "deprecado"),
         defaultValue: "en proceso",
+      },
+      fecha: {
+        type: DataTypes.STRING,
+        defaultValue: new Date().toLocaleString(),
       },
     },
     {
-      createdAt: "created_at",
-      updatedAt: "last_update",
+      timestamps: false,
     }
   );
 };

@@ -17,12 +17,15 @@ module.exports = (sequelize) => {
         type: DataTypes.BIGINT,
       },
       acta_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
+      },
+      fecha: {
+        type: DataTypes.STRING,
+        defaultValue: new Date().toLocaleString(),
       },
     },
     {
-      createdAt: "created_at",
-      updatedAt: "last_update",
+      timestamps: false,
     }
   );
 };

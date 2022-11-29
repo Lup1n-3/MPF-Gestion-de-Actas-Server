@@ -10,6 +10,10 @@ module.exports = (sequelize) => {
       description: {
         type: DataTypes.STRING,
       },
+      fecha: {
+        type: DataTypes.STRING,
+        defaultValue: new Date().toLocaleString(),
+      },
     },
     {
       timestamps: false,
