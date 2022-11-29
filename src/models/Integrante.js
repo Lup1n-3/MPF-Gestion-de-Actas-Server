@@ -16,9 +16,6 @@ module.exports = (sequelize) => {
       legajoOMatricula: {
         type: DataTypes.BIGINT,
       },
-      acta_id: {
-        type: DataTypes.BIGINT,
-      },
       fecha: {
         type: DataTypes.STRING,
         defaultValue: new Date().toLocaleString(),

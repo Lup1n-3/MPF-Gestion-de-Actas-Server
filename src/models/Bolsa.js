@@ -9,6 +9,7 @@ module.exports = (sequelize) => {
       },
       colorPrecinto: {
         type: DataTypes.ENUM("rojo", "verde", "blanco"),
+        defaultValue: null,
       },
       observaciones: {
         type: DataTypes.STRING,

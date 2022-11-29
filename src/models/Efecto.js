@@ -6,6 +6,7 @@ module.exports = (sequelize) => {
     {
       tipoDeElemento: {
         type: DataTypes.ENUM("celular", "tablet", "notebook", "pc", "hdd", "ssd", "sim", "sd"),
+        defaultValue: null,
       },
       marca: {
         type: DataTypes.STRING,
@@ -23,22 +24,27 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       tipoSeguridad: {
-        type: DataTypes.ENUM("patrón", "contraseña", "ninguno", "pin", "facial", "huella"),
+        type: DataTypes.ENUM("patrón", "contraseña", "ninguna", "pin", "facial", "huella"),
+        defaultValue: "ninguna",
       },
       desbloqueo: {
-        type: DataTypes.ENUM("si", "no"),
+        type: DataTypes.ENUM("", "si", "no"),
+        defaultValue: null,
       },
       herramientaSoft: {
         type: DataTypes.ENUM("ninguna", "UFED"),
+        defaultValue: "ninguna",
       },
       tipoExtraccion: {
         type: DataTypes.ENUM("ninguna", "logica", "fisica", "ambas"),
+        defaultValue: "ninguna",
       },
       descripcionTarea: {
         type: DataTypes.STRING,
       },
       estado: {
         type: DataTypes.ENUM("en proceso", "completo"),
+        defaultValue: "en proceso",
       },
       fecha: {
         type: DataTypes.STRING,
