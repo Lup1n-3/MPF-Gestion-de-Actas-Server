@@ -11,7 +11,7 @@ createBugReport.post("/", async (req, res) => {
     console.log(newBugReport);
 
     res.status(200).send(newBugReport);
-  } catch (error) {
+  } catch (err) {
     console.log(err);
   }
 });
