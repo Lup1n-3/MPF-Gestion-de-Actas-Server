@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
         defaultValue: "ninguna",
       },
       tipoExtraccion: {
-        type: DataTypes.ENUM("ninguna", "logica", "fisica", "ambas"),
+        type: DataTypes.ENUM("ninguna", "logica", "fisica", "fisica y logica"),
         defaultValue: "ninguna",
       },
       descripcionTarea: {
