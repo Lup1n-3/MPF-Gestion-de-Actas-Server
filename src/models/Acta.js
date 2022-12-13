@@ -25,9 +25,17 @@ module.exports = (sequelize) => {
       solicitante: {
         type: DataTypes.STRING,
       },
-      fecha: {
+      dias: {
+        type: DataTypes.INTEGER,
+      },
+      mes: {
         type: DataTypes.STRING,
-        defaultValue: new Date().toLocaleString(),
+      },
+      anio: {
+        type: DataTypes.STRING,
+      },
+      hora: {
+        type: DataTypes.STRING,
       },
       estado: {
         type: DataTypes.ENUM("en proceso", "completo", "deprecado"),

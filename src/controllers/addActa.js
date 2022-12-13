@@ -11,6 +11,10 @@ addActa.post("/", async (req, res) => {
       nroCausa: nro_causa,
       caratula,
       solicitante,
+      dias,
+      mes,
+      anio,
+      hora,
     } = req.body;
 
     const newActa = await Acta.create({
@@ -22,6 +26,10 @@ addActa.post("/", async (req, res) => {
       nro_causa: Number(nro_causa),
       solicitante,
       caratula,
+      dias,
+      mes,
+      anio,
+      hora,
     });
 
     return res.status(200).json(newActa);
