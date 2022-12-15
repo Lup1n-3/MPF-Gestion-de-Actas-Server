@@ -4,36 +4,25 @@ const { Efecto } = require("../db");
 addEfecto.post("/", async (req, res) => {
   try {
     const { bolsa_id } = req.query;
-    const {
-      tipoDeElemento,
-      marca,
-      modelo,
-      imei,
-      imei2,
-      estado,
-      sistemaOperativo,
-      tipoSeguridad,
-      desbloqueo,
-      herramientaSoft,
-      tipoExtraccion,
-      descripcionTarea,
-    } = req.body;
+
+    //* Saco sims y discos de req.body.XXXX
 
     const newEfecto = await Efecto.create({
       bolsa_id: bolsa_id,
-      tipoDeElemento,
-      marca,
-      modelo,
-      imei,
-      imei2,
-      sistemaOperativo,
-      tipoSeguridad,
-      desbloqueo,
-      herramientaSoft,
-      tipoExtraccion,
-      descripcionTarea,
-      estado,
+      ...req.body.efecto,
     });
+
+    /*
+      * Creo los sims con FK al efecto. Lo mismo con los discos
+        sims.forEach((s) => {
+        Sim.create({
+        efecto_id: newEfecto.id,
+        empresaSim: s.empresaSim,
+        serialSim: s.serialSim,
+        tipoExtraccionSim: s.tipoExtraccionSim,
+        })
+      })
+    */
 
     return res.status(200).json(newEfecto);
   } catch (err) {
