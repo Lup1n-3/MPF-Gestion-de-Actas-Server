@@ -1,28 +1,37 @@
 const addEfecto = require("express").Router();
-const { Efecto } = require("../db");
+const { Efecto, Sim, Disco } = require("../db");
 
 addEfecto.post("/", async (req, res) => {
+  const { bolsa_id } = req.query;
+  const sims = req.body.sims;
+  const discos = req.body.discos;
+
   try {
-    const { bolsa_id } = req.query;
-
-    //* Saco sims y discos de req.body.XXXX
-
     const newEfecto = await Efecto.create({
       bolsa_id: bolsa_id,
       ...req.body.efecto,
     });
 
-    /*
-      * Creo los sims con FK al efecto. Lo mismo con los discos
-        sims.forEach((s) => {
-        Sim.create({
+    //* Creo los sims con FK al efecto
+    sims.forEach(async (s) => {
+      await Sim.create({
         efecto_id: newEfecto.id,
         empresaSim: s.empresaSim,
         serialSim: s.serialSim,
         tipoExtraccionSim: s.tipoExtraccionSim,
-        })
-      })
-    */
+      });
+    });
+
+    //* Creo los discos con FK al efecto
+    discos.forEach(async (d) => {
+      await Disco.create({
+        efecto_id: newEfecto.id,
+        tipoDeDisco: d.tipoDeDisco,
+        marca: d.marca,
+        modelo: d.modelo,
+        almacenamiento: d.almacenamiento,
+      });
+    });
 
     return res.status(200).json(newEfecto);
   } catch (err) {
