@@ -16,6 +16,9 @@ module.exports = (sequelize) => {
       almacenamiento: {
         type: DataTypes.STRING,
       },
+      serialNumber: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,

@@ -30,6 +30,7 @@ addEfecto.post("/", async (req, res) => {
         marca: d.marca,
         modelo: d.modelo,
         almacenamiento: d.almacenamiento,
+        serialNumber: d.serialNumber,
       });
     });
 
