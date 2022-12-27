@@ -20,6 +20,9 @@ module.exports = (sequelize) => {
       imei2: {
         type: DataTypes.STRING,
       },
+      serialNumber: {
+        type: DataTypes.STRING,
+      },
       sistemaOperativo: {
         type: DataTypes.STRING,
       },
