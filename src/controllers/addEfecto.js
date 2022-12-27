@@ -1,10 +1,12 @@
 const addEfecto = require("express").Router();
-const { Efecto, Sim, Disco } = require("../db");
+const { Efecto, Sim, Disco, Sd } = require("../db");
 
 addEfecto.post("/", async (req, res) => {
   const { bolsa_id } = req.query;
+  //* saco info del body
   const sims = req.body.sims;
   const discos = req.body.discos;
+  const sds = req.body.sds;
 
   try {
     const newEfecto = await Efecto.create({
@@ -30,6 +32,15 @@ addEfecto.post("/", async (req, res) => {
         marca: d.marca,
         modelo: d.modelo,
         almacenamiento: d.almacenamiento,
+      });
+    });
+
+    sds.forEach(async (s) => {
+      await Sd.create({
+        efecto_id: newEfecto.id,
+        marca: s.marca,
+        modelo: s.modelo,
+        almacenamiento: s.almacenamiento,
       });
     });
 
