@@ -4,18 +4,11 @@ const { Perito } = require("../db");
 addPeritos.post("/", async (req, res) => {
   try {
     const peritos = req.body;
+    console.log(peritos);
 
-    const response = [];
+    const newPerito = await Perito.bulkCreate(peritos);
 
-    peritos.forEach(async (perito) => {
-      const res = await Perito.findOne({ where: { dni: perito.dni } });
-      if (!res) {
-        const newPerito = await Perito.create(perito);
-        response.push(newPerito);
-      }
-    });
-
-    return res.status(200).json(response);
+    return res.status(200).json(newPerito);
   } catch (err) {
     console.log(err);
   }
