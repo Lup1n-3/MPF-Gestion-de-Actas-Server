@@ -1,5 +1,5 @@
 const addEfecto = require("express").Router();
-const { Efecto, Sim, Disco, Sd } = require("../db");
+const { Efecto, Sim, Disco, Sd, Bolsa } = require("../db");
 
 addEfecto.post("/", async (req, res) => {
   const { bolsa_id } = req.query;
@@ -9,6 +9,17 @@ addEfecto.post("/", async (req, res) => {
   const sds = req.body.sds;
 
   try {
+    const bolsa = await Bolsa.findByPk(bolsa_id);
+    if (req.body.efecto.estado === "completo") {
+      bolsa.estado = "abierta con efectos completos";
+    } else {
+      bolsa.estado = "abierta con efectos en proceso";
+    }
+
+    //! Aca falta contemplar cuando dentro de una bolsa hay mujchos efectos con distintos estados, deberia ser en proceso. pero si estan todos completos seria estado = "abiertaa con efectos completos"
+
+    bolsa.save();
+
     const newEfecto = await Efecto.create({
       bolsa_id: bolsa_id,
       ...req.body.efecto,
@@ -42,6 +53,7 @@ addEfecto.post("/", async (req, res) => {
         marca: s.marca,
         modelo: s.modelo,
         almacenamiento: s.almacenamiento,
+        tipoExtraccionSd: s.tipoExtraccionSd,
       });
     });
 

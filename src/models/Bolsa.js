@@ -22,8 +22,8 @@ module.exports = (sequelize) => {
         defaultValue: null,
       },
       estado: {
-        type: DataTypes.ENUM("en proceso", "completo", "deprecado"),
-        defaultValue: "en proceso",
+        type: DataTypes.STRING,
+        defaultValue: "abierta sin efectos",
       },
       fecha: {
         type: DataTypes.STRING,

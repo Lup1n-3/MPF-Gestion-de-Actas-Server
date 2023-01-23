@@ -9,7 +9,7 @@ updateBolsa.put("/", async (req, res) => {
       const bolsa = await Bolsa.findOne({ where: { nroPrecinto: nroPrecinto } });
 
       bolsa.nroPrecintoBlanco = nroPrecintoBlanco;
-      bolsa.estado = "completo";
+      bolsa.estado = "cerrada";
       bolsa.save();
 
       res.status(200).json(bolsa);
@@ -21,6 +21,7 @@ updateBolsa.put("/", async (req, res) => {
       const bolsa = await Bolsa.findOne({ where: { nroPrecinto: nroPrecinto } });
 
       bolsa.leyenda = leyenda;
+      bolsa.estado = "cerrada en proceso";
       bolsa.save();
 
       res.status(200).json(bolsa);
