@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
       almacenamiento: {
         type: DataTypes.STRING,
       },
+      tipoExtraccionSd: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,
