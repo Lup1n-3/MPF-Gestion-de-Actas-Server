@@ -24,42 +24,24 @@ addEfecto.post("/", async (req, res) => {
       bolsa_id: bolsa_id,
       ...req.body.efecto,
     });
-    if (newEfecto) {
-      //* Creo los sims con FK al efecto
-      await sims.forEach(async (s) => {
-        await Sim.create({
-          efecto_id: newEfecto.id,
-          empresaSim: s.empresaSim,
-          serialSim: s.serialSim,
-          tipoExtraccionSim: s.tipoExtraccionSim,
-        });
-      });
 
-      //* Creo los discos con FK al efecto
-      await discos.forEach(async (d) => {
-        await Disco.create({
-          efecto_id: newEfecto.id,
-          tipoDeDisco: d.tipoDeDisco,
-          marca: d.marca,
-          modelo: d.modelo,
-          almacenamiento: d.almacenamiento,
-          serialNumber: d.serialNumber,
-        });
-      });
+    //* Inyecto el id del efecto a los sims
+    sims.forEach((s) => (s.efecto_id = newEfecto.id));
+    //* Creo los sims con FK al efecto
+    await Sim.bulkCreate(sims);
 
-      //* Creo las Sds con FK al efecto
-      await sds.forEach(async (s) => {
-        await Sd.create({
-          efecto_id: newEfecto.id,
-          marca: s.marca,
-          modelo: s.modelo,
-          almacenamiento: s.almacenamiento,
-          tipoExtraccionSd: s.tipoExtraccionSd,
-        });
-      });
-    }
+    //* Inyecto el id del efecto a los discos
+    discos.forEach((d) => (d.efecto_id = newEfecto.id));
+    //* Creo los discos con FK al efecto
+    await Disco.bulkCreate(discos);
+
+    //* Inyecto el id del efecto a las sds
+    sds.forEach((s) => (s.efecto_id = newEfecto.id));
+    //* Creo las Sds con FK al efecto
+    await Sd.bulkCreate(sds);
 
     const finalEfecto = await Efecto.findByPk(newEfecto.id, { include: { all: true } });
+    console.log(finalEfecto);
 
     return res.status(200).json(finalEfecto);
   } catch (err) {
