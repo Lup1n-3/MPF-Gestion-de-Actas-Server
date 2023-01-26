@@ -41,7 +41,6 @@ addEfecto.post("/", async (req, res) => {
     await Sd.bulkCreate(sds);
 
     const finalEfecto = await Efecto.findByPk(newEfecto.id, { include: { all: true } });
-    console.log(finalEfecto);
 
     return res.status(200).json(finalEfecto);
   } catch (err) {

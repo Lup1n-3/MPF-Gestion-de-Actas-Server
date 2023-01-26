@@ -13,6 +13,7 @@ const removePerito = require("../controllers/removePerito");
 const removeIntegrante = require("../controllers/removeIntegrante");
 const createBugReport = require("../controllers/createBugReport");
 const getBugsReports = require("../controllers/getBugsReports");
+const getUpdatedBolsas = require("../controllers/getUpdatedBolsas");
 
 //* Generamos las rutas
 router.use("/addActa", addActa);
@@ -28,5 +29,6 @@ router.use("/removePerito", removePerito);
 router.use("/removeIntegrante", removeIntegrante);
 router.use("/createBugReport", createBugReport);
 router.use("/getBugsReports", getBugsReports);
+router.use("/getUpdatedBolsas", getUpdatedBolsas);
 
 module.exports = router;
