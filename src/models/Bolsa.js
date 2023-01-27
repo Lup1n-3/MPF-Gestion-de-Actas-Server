@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
     "Bolsa",
     {
       nroPrecinto: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
       },
       colorPrecinto: {
         type: DataTypes.ENUM("rojo", "verde", "blanco"),
@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       nroPrecintoBlanco: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
         defaultValue: null,
       },
       estado: {

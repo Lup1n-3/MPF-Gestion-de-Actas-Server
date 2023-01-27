@@ -5,19 +5,19 @@ module.exports = (sequelize) => {
     "Acta",
     {
       nro_mpf: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
       },
       nro_cij: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
       },
       nro_dil: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
       },
       nro_coop: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
       },
       nro_causa: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
       },
       caratula: {
         type: DataTypes.STRING,
@@ -38,7 +38,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       estado: {
-        type: DataTypes.ENUM("en proceso", "completo", "deprecado"),
+        type: DataTypes.STRING,
         defaultValue: "en proceso",
       },
       observaciones: {

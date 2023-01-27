@@ -8,7 +8,7 @@ addBolsa.post("/", async (req, res) => {
     const newBolsa = await Bolsa.create({
       acta_id,
       colorPrecinto,
-      nroPrecinto: Number(nroPrecinto),
+      nroPrecinto: nroPrecinto,
       observaciones,
     });
 

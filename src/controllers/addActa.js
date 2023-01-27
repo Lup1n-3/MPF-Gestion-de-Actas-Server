@@ -19,11 +19,11 @@ addActa.post("/", async (req, res) => {
 
     const newActa = await Acta.create({
       //* Crea el acta
-      nro_mpf: Number(nro_mpf),
-      nro_dil: Number(nro_dil),
-      nro_cij: Number(nro_cij),
-      nro_coop: Number(nro_coop),
-      nro_causa: Number(nro_causa),
+      nro_mpf,
+      nro_dil,
+      nro_cij,
+      nro_coop,
+      nro_causa,
       solicitante,
       caratula,
       dias,
@@ -35,7 +35,7 @@ addActa.post("/", async (req, res) => {
     return res.status(200).json(newActa);
   } catch (err) {
     console.log(err);
-    return res.status(500).send(err.sqlMessage);
+    return res.statusCode(500).send(err);
   }
 });
 
