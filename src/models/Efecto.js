@@ -17,13 +17,7 @@ module.exports = (sequelize) => {
       imei: {
         type: DataTypes.STRING,
       },
-      imei2: {
-        type: DataTypes.STRING,
-      },
       serialNumber: {
-        type: DataTypes.STRING,
-      },
-      sistemaOperativo: {
         type: DataTypes.STRING,
       },
       tipoSeguridad: {
@@ -39,9 +33,6 @@ module.exports = (sequelize) => {
         defaultValue: "ninguna",
       },
       tipoExtraccion: {
-        type: DataTypes.STRING,
-      },
-      descripcionTarea: {
         type: DataTypes.STRING,
       },
       estado: {
