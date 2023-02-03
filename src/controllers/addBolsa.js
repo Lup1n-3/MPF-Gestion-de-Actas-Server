@@ -12,7 +12,9 @@ addBolsa.post("/", async (req, res) => {
       observaciones,
     });
 
-    return res.status(200).json(newBolsa);
+    const updatedBolsa = await Bolsa.findByPk(newBolsa.id, { include: { all: true, nested: true } });
+
+    return res.status(200).json(updatedBolsa);
   } catch (err) {
     console.log(err);
   }
