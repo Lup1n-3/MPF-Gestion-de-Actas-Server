@@ -1,7 +1,7 @@
 const addEfecto = require("express").Router();
 const { Efecto, Sim, Disco, Sd, Bolsa } = require("../db");
 
-addEfecto.post("/", async (req, res) => {
+addEfecto.post("/", async (req, res, next) => {
   const { bolsa_id } = req.query;
   //* saco info del body
   const sims = req.body.sims;
@@ -13,7 +13,9 @@ addEfecto.post("/", async (req, res) => {
     const bolsa = await Bolsa.findByPk(bolsa_id);
     if (bolsa) {
       if (req.body.efecto.estado === "completo") {
-        bolsa.estado = "abierta con efectos completos";
+        if (bolsa.estado !== "abierta con efectos en proceso") {
+          bolsa.estado = "abierta con efectos completos";
+        }
       } else {
         bolsa.estado = "abierta con efectos en proceso";
       }
