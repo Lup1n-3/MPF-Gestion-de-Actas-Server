@@ -39,7 +39,7 @@ module.exports = (sequelize) => {
       },
       estado: {
         type: DataTypes.STRING,
-        defaultValue: "en proceso",
+        defaultValue: "en creacion",
       },
       observaciones: {
         type: DataTypes.STRING,

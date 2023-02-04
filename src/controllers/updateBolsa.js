@@ -1,5 +1,5 @@
 const updateBolsa = require("express").Router();
-const { Bolsa } = require("../db");
+const { Bolsa, Acta } = require("../db");
 
 updateBolsa.put("/", async (req, res) => {
   const { nroPrecintoBlanco, nroPrecinto, leyenda } = req.body;
@@ -11,6 +11,14 @@ updateBolsa.put("/", async (req, res) => {
       bolsa.nroPrecintoBlanco = nroPrecintoBlanco;
       bolsa.estado = "cerrada";
       bolsa.save();
+
+      const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true } });
+      acta.Bolsas.map((b) => {
+        if (acta.estado === "en proceso") return;
+        if (b.estado === "cerrada en proceso") return (acta.estado = "en proceso");
+        acta.estado = "completo";
+      });
+      acta.save();
 
       res.status(200).json(bolsa);
     } catch (err) {
