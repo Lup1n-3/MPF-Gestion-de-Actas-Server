@@ -27,10 +27,7 @@ getActas.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const acta = await Acta.findOne({
-      where: { id },
-      include: { all: true, nested: true },
-    });
+    const acta = await Acta.findByPk(id, { include: { all: true, nested: true } });
 
     if (acta) {
       return res.status(200).json(acta);

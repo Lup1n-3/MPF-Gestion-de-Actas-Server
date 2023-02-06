@@ -16,7 +16,7 @@ updateBolsa.put("/", async (req, res) => {
       acta.Bolsas.map((b) => {
         if (acta.estado === "en proceso") return;
         if (b.estado === "cerrada en proceso") return (acta.estado = "en proceso");
-        acta.estado = "completo";
+        if (b.estado === "cerrada") return (acta.estado = "completo");
       });
       acta.save();
 
@@ -31,6 +31,14 @@ updateBolsa.put("/", async (req, res) => {
       bolsa.leyenda = leyenda;
       bolsa.estado = "cerrada en proceso";
       bolsa.save();
+
+      const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true } });
+      acta.Bolsas.map((b) => {
+        if (acta.estado === "en proceso") return;
+        if (b.estado === "cerrada en proceso") return (acta.estado = "en proceso");
+        if (b.estado === "cerrada") return (acta.estado = "completo");
+      });
+      acta.save();
 
       res.status(200).json(bolsa);
     } catch (err) {
