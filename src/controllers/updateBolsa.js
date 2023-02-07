@@ -4,47 +4,71 @@ const { Bolsa, Acta } = require("../db");
 updateBolsa.put("/", async (req, res) => {
   const { nroPrecintoBlanco, nroPrecinto, leyenda } = req.body;
 
-  if (!leyenda) {
-    try {
-      const bolsa = await Bolsa.findOne({ where: { nroPrecinto: nroPrecinto } });
+  const bolsa = await Bolsa.findOne({ where: { nroPrecinto: nroPrecinto }, include: { all: true } });
 
+  if (!leyenda) {
+    //* BOLSA CERRADA
+    try {
       bolsa.nroPrecintoBlanco = nroPrecintoBlanco;
       bolsa.estado = "cerrada";
-      bolsa.save();
+      await bolsa.save();
 
       const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true } });
-      acta.Bolsas.map((b) => {
-        if (acta.estado === "en proceso") return;
-        if (b.estado === "cerrada en proceso") return (acta.estado = "en proceso");
-        if (b.estado === "cerrada") return (acta.estado = "completo");
+      let flag = false;
+      acta.Bolsas.forEach((b) => {
+        console.log("BOLSAS ---->", b.nroPrecinto, b.estado);
+        if (b.estado === "cerrada en proceso" || b.estado === "cerrada") {
+          if (b.estado === "cerrada en proceso") {
+            flag = "en proceso";
+          } else {
+            flag = "cerrada";
+          }
+        } else {
+          flag = false;
+        }
       });
+      if (flag === "en proceso") {
+        acta.estado = "en proceso ";
+      } else if (flag === "cerrada") {
+        acta.estado = "completa";
+      }
       acta.save();
-
-      res.status(200).json(bolsa);
     } catch (err) {
       console.log(err);
     }
   } else {
+    //* BOLSA EN PROCESO
     try {
-      const bolsa = await Bolsa.findOne({ where: { nroPrecinto: nroPrecinto } });
-
       bolsa.leyenda = leyenda;
       bolsa.estado = "cerrada en proceso";
-      bolsa.save();
+      await bolsa.save();
 
       const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true } });
-      acta.Bolsas.map((b) => {
-        if (acta.estado === "en proceso") return;
-        if (b.estado === "cerrada en proceso") return (acta.estado = "en proceso");
-        if (b.estado === "cerrada") return (acta.estado = "completo");
+      let flag = false;
+      acta.Bolsas.forEach((b) => {
+        console.log("BOLSAS ---->", b.nroPrecinto, b.estado);
+        if (b.estado === "cerrada en proceso" || b.estado === "cerrada") {
+          if (b.estado === "cerrada en proceso") {
+            flag = "en proceso";
+          } else {
+            flag = "cerrada";
+          }
+        } else {
+          flag = false;
+        }
       });
+      if (flag === "en proceso") {
+        acta.estado = "en proceso";
+      } else if (flag === "cerrada") {
+        acta.estado = "completa";
+      }
       acta.save();
-
-      res.status(200).json(bolsa);
     } catch (err) {
       console.log(err);
     }
   }
+
+  res.status(200).send(bolsa);
 });
 
 module.exports = updateBolsa;
