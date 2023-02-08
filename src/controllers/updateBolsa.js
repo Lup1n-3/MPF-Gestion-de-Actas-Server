@@ -6,6 +6,26 @@ updateBolsa.put("/", async (req, res) => {
 
   const bolsa = await Bolsa.findOne({ where: { nroPrecinto: nroPrecinto }, include: { all: true } });
 
+  const changeStates = async () => {
+    const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true } });
+    let flag = false;
+    acta.Bolsas.forEach((b) => {
+      if (b.estado === "cerrada en proceso") {
+        flag = "en proceso";
+      } else if (b.estado === "cerrada") {
+        flag = "cerrada";
+      } else {
+        flag = false;
+      }
+    });
+    if (flag === "en proceso") {
+      acta.estado = "en proceso";
+    } else if (flag === "cerrada") {
+      acta.estado = "completa";
+    }
+    acta.save();
+  };
+
   if (!leyenda) {
     //* BOLSA CERRADA
     try {
@@ -13,26 +33,7 @@ updateBolsa.put("/", async (req, res) => {
       bolsa.estado = "cerrada";
       await bolsa.save();
 
-      const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true } });
-      let flag = false;
-      acta.Bolsas.forEach((b) => {
-        console.log("BOLSAS ---->", b.nroPrecinto, b.estado);
-        if (b.estado === "cerrada en proceso" || b.estado === "cerrada") {
-          if (b.estado === "cerrada en proceso") {
-            flag = "en proceso";
-          } else {
-            flag = "cerrada";
-          }
-        } else {
-          flag = false;
-        }
-      });
-      if (flag === "en proceso") {
-        acta.estado = "en proceso ";
-      } else if (flag === "cerrada") {
-        acta.estado = "completa";
-      }
-      acta.save();
+      changeStates();
     } catch (err) {
       console.log(err);
     }
@@ -43,26 +44,7 @@ updateBolsa.put("/", async (req, res) => {
       bolsa.estado = "cerrada en proceso";
       await bolsa.save();
 
-      const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true } });
-      let flag = false;
-      acta.Bolsas.forEach((b) => {
-        console.log("BOLSAS ---->", b.nroPrecinto, b.estado);
-        if (b.estado === "cerrada en proceso" || b.estado === "cerrada") {
-          if (b.estado === "cerrada en proceso") {
-            flag = "en proceso";
-          } else {
-            flag = "cerrada";
-          }
-        } else {
-          flag = false;
-        }
-      });
-      if (flag === "en proceso") {
-        acta.estado = "en proceso";
-      } else if (flag === "cerrada") {
-        acta.estado = "completa";
-      }
-      acta.save();
+      changeStates();
     } catch (err) {
       console.log(err);
     }
