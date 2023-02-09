@@ -1,5 +1,5 @@
 const closeProcessActa = require("express").Router();
-const { Acta, Perito, Integrante, Bolsa } = require("../db");
+const { Acta, Perito, Integrante, Bolsa, Efecto, Sd, Sim, Disco } = require("../db");
 
 const formatMonth = (month) => {
   switch (month + 1) {
@@ -51,7 +51,7 @@ closeProcessActa.put("/", async (req, res) => {
 
   try {
     //* Depreco el acta
-    const acta = await Acta.findByPk(id, { include: { all: true } });
+    const acta = await Acta.findByPk(id, { include: { all: true, nested: true } });
     acta.estado = "deprecada";
     acta.save();
 
@@ -69,13 +69,85 @@ closeProcessActa.put("/", async (req, res) => {
       anio: fecha.getFullYear(),
       hora: `${fecha.getHours()}:${fecha.getMinutes()}`,
     });
-
+    //* Creo los peritos nuevos
     acta.Peritos.forEach(async (p) => {
       await Perito.create({
         acta_id: newActa.id,
         nombreYApellido: p.nombreYApellido,
         cargo: p.cargo,
         dni: p.dni,
+      });
+    });
+    //* Creo los integrantes nuevos
+    acta.Integrantes.forEach(async (i) => {
+      await Integrante.create({
+        acta_id: newActa.id,
+        nombreYApellido: i.nombreYApellido,
+        cargo: i.cargo,
+        dni: i.dni,
+        legajoOMatricula: i.legajoOMatricula,
+      });
+    });
+
+    //* Mapeo las bolsas y creo la copia
+    acta.Bolsas.forEach(async (b) => {
+      const newBolsa = await Bolsa.create({
+        acta_id: newActa.id,
+        nroPrecinto: b.nroPrecinto,
+        colorPrecinto: b.colorPrecinto,
+        observaciones: null,
+        leyenda: null,
+        nroPrecintoBlanco: null,
+        estado: "abierta con efectos completos",
+      });
+
+      //* Mapeo los efectos y creo la copia
+      b.Efectos.forEach(async (e) => {
+        const newEfecto = await Efecto.create({
+          bolsa_id: newBolsa.id,
+          tipoDeElemento: e.tipoDeElemento,
+          marca: e.marca,
+          modelo: e.modelo,
+          imei: e.imei,
+          serialNumber: e.serialNumber,
+          tipoSeguridad: e.tipoSeguridad,
+          desbloqueo: e.desbloqueo,
+          herramientaSoft: e.herramientaSoft,
+          tipoExtraccion: e.tipoExtraccion,
+          estado: "completo",
+          extraccion: e.extraccion,
+          almacenamiento: e.almacenamiento,
+        });
+
+        //* Mapeo y creo cada elemento del Efecto si es que existe
+        e.Sds.forEach(async (sd) => {
+          await Sd.create({
+            efecto_id: newEfecto.id,
+            marca: sd.marca,
+            modelo: sd.modelo,
+            almacenamiento: sd.almacenamiento,
+            tipoExtraccionSd: sd.tipoExtraccionSd,
+          });
+        });
+        e.Sims.forEach(async (sim) => {
+          await Sim.create({
+            efecto_id: newEfecto.id,
+            empresaSim: sim.empresaSim,
+            serialSim: sim.serialSim,
+            tipoExtraccionSim: sim.tipoExtraccionSim,
+          });
+        });
+        e.Discos.forEach(async (disco) => {
+          await Disco.create({
+            efecto_id: newEfecto.id,
+            tipoDeDisco: disco.tipoDeDisco,
+            marca: disco.marca,
+            modelo: disco.modelo,
+            almacenamiento: disco.almacenamiento,
+            serialNumber: disco.serialNumber,
+            estadoDisco: "completo",
+          });
+        });
       });
     });
 
