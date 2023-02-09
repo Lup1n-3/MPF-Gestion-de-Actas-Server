@@ -4,7 +4,6 @@ const { Perito } = require("../db");
 addPeritos.post("/", async (req, res) => {
   try {
     const peritos = req.body;
-    console.log(peritos);
 
     const newPerito = await Perito.bulkCreate(peritos);
 
