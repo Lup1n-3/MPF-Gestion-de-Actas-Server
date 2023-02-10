@@ -64,6 +64,7 @@ closeProcessActa.put("/", async (req, res) => {
       nro_causa: acta.nro_causa,
       solicitante: acta.solicitante,
       caratula: acta.caratula,
+      estado: "para completar",
       dias: fecha.getDate(),
       mes: formatMonth(fecha.getMonth()),
       anio: fecha.getFullYear(),
@@ -95,10 +96,10 @@ closeProcessActa.put("/", async (req, res) => {
         acta_id: newActa.id,
         nroPrecinto: b.nroPrecinto,
         colorPrecinto: b.colorPrecinto,
-        observaciones: null,
-        leyenda: null,
-        nroPrecintoBlanco: null,
-        estado: "abierta con efectos completos",
+        observaciones: b.observaciones,
+        leyenda: b.leyenda,
+        nroPrecintoBlanco: b.estado === "cerrada" ? b.nroPrecintoBlanco : null,
+        estado: b.estado === "cerrada" ? b.estado : "abierta con efectos completos",
       });
 
       //* Mapeo los efectos y creo la copia

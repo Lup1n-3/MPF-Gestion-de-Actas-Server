@@ -2,25 +2,18 @@ const updateBolsa = require("express").Router();
 const { Bolsa, Acta } = require("../db");
 
 updateBolsa.put("/", async (req, res) => {
-  const { nroPrecintoBlanco, nroPrecinto, leyenda } = req.body;
+  const { nroPrecintoBlanco, id, leyenda } = req.body;
 
-  const bolsa = await Bolsa.findOne({ where: { nroPrecinto: nroPrecinto }, include: { all: true } });
+  const bolsa = await Bolsa.findByPk(id, { include: { all: true, nested: true } });
 
   const changeStates = async () => {
     const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true } });
-    let flag = false;
-    acta.Bolsas.forEach((b) => {
-      if (b.estado === "cerrada en proceso") {
-        flag = "en proceso";
-      } else if (b.estado === "cerrada") {
-        flag = "cerrada";
-      } else {
-        flag = false;
-      }
-    });
-    if (flag === "en proceso") {
+    const bagsInProcess = acta.Bolsas.filter(
+      (b) => b.estado === "abierta con efectos en proceso" || b.estado === "cerrada en proceso"
+    );
+    if (bagsInProcess.length > 0) {
       acta.estado = "en proceso";
-    } else if (flag === "cerrada") {
+    } else {
       acta.estado = "completa";
     }
     acta.save();
