@@ -53,6 +53,7 @@ closeProcessActa.put("/", async (req, res) => {
     //* Depreco el acta
     const acta = await Acta.findByPk(id, { include: { all: true, nested: true } });
     acta.estado = "deprecada";
+    acta.processToComplete = true;
     acta.save();
 
     //* Creo el acta nueva
