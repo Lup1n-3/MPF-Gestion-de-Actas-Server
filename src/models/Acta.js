@@ -42,8 +42,8 @@ module.exports = (sequelize) => {
         defaultValue: "en creacion",
       },
       processToComplete: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
+        type: DataTypes.STRING,
+        defaultValue: "false",
       },
       observaciones: {
         type: DataTypes.STRING,

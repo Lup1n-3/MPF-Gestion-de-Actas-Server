@@ -8,15 +8,18 @@ updateBolsa.put("/", async (req, res) => {
 
   const changeStates = async () => {
     const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true } });
-    const bagsInProcess = acta.Bolsas.filter(
-      (b) => b.estado === "abierta con efectos en proceso" || b.estado === "cerrada en proceso"
-    );
-    if (bagsInProcess.length > 0) {
+
+    const bagsInProcessToClose = acta.Bolsas.filter((b) => b.estado === "abierta con efectos en proceso");
+    const bagsInProcess = acta.Bolsas.filter((b) => b.estado === "cerrada en proceso");
+
+    if (bagsInProcessToClose.length > 0) {
+      acta.estado = "en creacion";
+    } else if (bagsInProcess.length > 0) {
       acta.estado = "en proceso";
     } else {
       acta.estado = "completa";
     }
-    acta.save();
+    await acta.save();
   };
 
   if (!leyenda) {
