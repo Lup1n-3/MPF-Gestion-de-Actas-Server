@@ -53,7 +53,6 @@ closeProcessActa.put("/", async (req, res) => {
     //* Depreco el acta
     const acta = await Acta.findByPk(id, { include: { all: true, nested: true } });
     acta.estado = "deprecada";
-    acta.processToComplete = "true";
     acta.save();
 
     //* Creo el acta nueva
@@ -66,6 +65,7 @@ closeProcessActa.put("/", async (req, res) => {
       solicitante: acta.solicitante,
       caratula: acta.caratula,
       estado: "para completar",
+      processToComplete: "true",
       dias: fecha.getDate(),
       mes: formatMonth(fecha.getMonth()),
       anio: fecha.getFullYear(),
@@ -101,6 +101,7 @@ closeProcessActa.put("/", async (req, res) => {
         leyenda: b.leyenda,
         nroPrecintoBlanco: b.estado === "cerrada" ? b.nroPrecintoBlanco : null,
         estado: b.estado === "cerrada" ? b.estado : "abierta con efectos completos",
+        processToCompleteBolsa: b.estado === "cerrada" ? "false" : "true",
       });
 
       //* Mapeo los efectos y creo la copia

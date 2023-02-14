@@ -29,6 +29,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         defaultValue: new Date().toLocaleString(),
       },
+      processToCompleteBolsa: {
+        type: DataTypes.STRING,
+        defaultValue: "true",
+      },
     },
     {
       timestamps: false,
