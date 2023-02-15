@@ -16,6 +16,7 @@ const getBugsReports = require("../controllers/getBugsReports");
 const getUpdatedBolsas = require("../controllers/getUpdatedBolsas");
 const removeBolsa = require("../controllers/removeBolsa");
 const closeProcessActa = require("../controllers/closeProcessActa");
+const removeEfecto = require("../controllers/removeEfecto");
 
 //* Generamos las rutas
 router.use("/addActa", addActa);
@@ -34,5 +35,6 @@ router.use("/getBugsReports", getBugsReports);
 router.use("/getUpdatedBolsas", getUpdatedBolsas);
 router.use("/removeBolsa", removeBolsa);
 router.use("/closeProcessActa", closeProcessActa);
+router.use("/removeEfecto", removeEfecto);
 
 module.exports = router;
