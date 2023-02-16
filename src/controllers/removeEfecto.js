@@ -1,5 +1,5 @@
 const removeEfecto = require("express").Router();
-const { Efecto, Bolsa } = require("../db");
+const { Efecto, Bolsa, Acta } = require("../db");
 
 removeEfecto.delete("/", async (req, res) => {
   const { efecto_id } = req.query;
@@ -33,7 +33,14 @@ removeEfecto.delete("/", async (req, res) => {
     await efecto.destroy();
     await efecto.save();
 
-    const newEfectos = await Efecto.findAll({ where: { bolsa_id: bolsa.id }, include: { all: true, nested: true } });
+    const updatedActa = await Acta.findOne({ where: { id: bolsa.acta_id }, include: { all: true, nested: true } });
+
+    const newEfectos = [];
+    updatedActa.Bolsas.forEach((b) => {
+      b.Efectos.forEach((e) => {
+        newEfectos.push(e);
+      });
+    });
 
     return res.status(200).send(newEfectos);
   } catch (err) {
