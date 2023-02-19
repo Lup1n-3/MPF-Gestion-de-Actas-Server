@@ -17,6 +17,7 @@ const getUpdatedBolsas = require("../controllers/getUpdatedBolsas");
 const removeBolsa = require("../controllers/removeBolsa");
 const closeProcessActa = require("../controllers/closeProcessActa");
 const removeEfecto = require("../controllers/removeEfecto");
+const removeActa = require("../controllers/removeActa");
 
 //* Generamos las rutas
 router.use("/addActa", addActa);
@@ -36,5 +37,6 @@ router.use("/getUpdatedBolsas", getUpdatedBolsas);
 router.use("/removeBolsa", removeBolsa);
 router.use("/closeProcessActa", closeProcessActa);
 router.use("/removeEfecto", removeEfecto);
+router.use("/removeActa", removeActa);
 
 module.exports = router;
