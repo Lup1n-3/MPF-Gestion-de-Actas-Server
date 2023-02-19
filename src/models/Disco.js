@@ -19,6 +19,9 @@ module.exports = (sequelize) => {
       serialNumber: {
         type: DataTypes.STRING,
       },
+      herramientaSoftDisco: {
+        type: DataTypes.STRING,
+      },
       estadoDisco: {
         type: DataTypes.STRING,
       },
