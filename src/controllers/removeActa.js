@@ -6,7 +6,7 @@ removeActa.delete("/", async (req, res) => {
 
   try {
     const acta = await Acta.findByPk(acta_id);
-    acta.destroy();
+    await acta.destroy();
     await acta.save();
 
     const newActas = await Acta.findAll({ include: { all: true, nested: true } });
