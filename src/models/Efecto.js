@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
       almacenamiento: {
         type: DataTypes.STRING,
       },
-      encencido: {
+      encendido: {
         type: DataTypes.STRING,
       },
       observacionEncendido: {
