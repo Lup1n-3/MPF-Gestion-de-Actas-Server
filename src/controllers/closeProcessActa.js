@@ -120,6 +120,10 @@ closeProcessActa.put("/", async (req, res) => {
           estado: "completo",
           extraccion: e.extraccion,
           almacenamiento: e.almacenamiento,
+          encendido: e.encendido,
+          observacionEncendido: e.observacionEncendido,
+          elementoFallado: e.elementoFallado,
+          observacionFalla: e.observacionFalla,
         });
 
         //* Mapeo y creo cada elemento del Efecto si es que existe

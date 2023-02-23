@@ -45,6 +45,18 @@ module.exports = (sequelize) => {
       almacenamiento: {
         type: DataTypes.STRING,
       },
+      encencido: {
+        type: DataTypes.STRING,
+      },
+      observacionEncendido: {
+        type: DataTypes.STRING,
+      },
+      elementoFallado: {
+        type: DataTypes.STRING,
+      },
+      observacionFalla: {
+        type: DataTypes.STRING,
+      },
       fecha: {
         type: DataTypes.STRING,
         defaultValue: new Date().toLocaleString(),
