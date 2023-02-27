@@ -1,5 +1,5 @@
 const getBugsReports = require("express").Router();
-const { BugReport } = require("../db");
+const { BugReport } = require("../../db");
 
 getBugsReports.get("/", async (req, res) => {
   try {

@@ -1,5 +1,5 @@
 const addIntegrantes = require("express").Router();
-const { Integrante } = require("../db");
+const { Integrante } = require("../../db");
 
 addIntegrantes.post("/", async (req, res) => {
   try {

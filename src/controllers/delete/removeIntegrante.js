@@ -1,5 +1,5 @@
 const removeIntegrante = require("express").Router();
-const { Integrante } = require("../db");
+const { Integrante } = require("../../db");
 
 removeIntegrante.delete("/", async (req, res) => {
   try {

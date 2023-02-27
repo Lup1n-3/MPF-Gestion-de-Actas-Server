@@ -1,5 +1,5 @@
 const removeEfecto = require("express").Router();
-const { Efecto, Bolsa, Acta } = require("../db");
+const { Efecto, Bolsa, Acta } = require("../../db");
 
 removeEfecto.delete("/", async (req, res) => {
   const { efecto_id } = req.query;

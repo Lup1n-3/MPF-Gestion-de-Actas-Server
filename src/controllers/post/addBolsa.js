@@ -1,5 +1,5 @@
 const addBolsa = require("express").Router();
-const { Bolsa } = require("../db");
+const { Bolsa } = require("../../db");
 
 addBolsa.post("/", async (req, res) => {
   try {

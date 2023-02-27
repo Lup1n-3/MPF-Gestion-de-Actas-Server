@@ -1,5 +1,5 @@
 const getUpdatedBolsas = require("express").Router();
-const { Bolsa } = require("../db");
+const { Bolsa } = require("../../db");
 
 getUpdatedBolsas.get("/", async (req, res) => {
   const { acta_id } = req.query;

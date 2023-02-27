@@ -1,5 +1,5 @@
 const removePerito = require("express").Router();
-const { Perito } = require("../db");
+const { Perito } = require("../../db");
 
 removePerito.delete("/", async (req, res) => {
   const { dni, acta_id } = req.query;

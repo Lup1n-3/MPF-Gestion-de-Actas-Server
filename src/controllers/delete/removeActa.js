@@ -1,5 +1,5 @@
 const removeActa = require("express").Router();
-const { Acta } = require("../db");
+const { Acta } = require("../../db");
 
 removeActa.delete("/", async (req, res) => {
   const { acta_id } = req.query;

@@ -1,5 +1,5 @@
 const addEfecto = require("express").Router();
-const { Efecto, Sim, Disco, Sd, Bolsa } = require("../db");
+const { Efecto, Sim, Disco, Sd, Bolsa } = require("../../db");
 
 addEfecto.post("/", async (req, res) => {
   const { bolsa_id } = req.query;

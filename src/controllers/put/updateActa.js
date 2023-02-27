@@ -1,5 +1,5 @@
 const updateActa = require("express").Router();
-const { Acta } = require("../db");
+const { Acta } = require("../../db");
 
 updateActa.put("/", async (req, res) => {
   const { observaciones, id } = req.body;

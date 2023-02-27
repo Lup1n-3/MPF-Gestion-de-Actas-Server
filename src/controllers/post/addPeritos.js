@@ -1,5 +1,5 @@
 const addPeritos = require("express").Router();
-const { Perito } = require("../db");
+const { Perito } = require("../../db");
 
 addPeritos.post("/", async (req, res) => {
   try {

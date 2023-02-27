@@ -1,5 +1,5 @@
 const updateBolsa = require("express").Router();
-const { Bolsa, Acta } = require("../db");
+const { Bolsa, Acta } = require("../../db");
 
 updateBolsa.put("/", async (req, res) => {
   const { nroPrecintoBlanco, id, leyenda } = req.body;

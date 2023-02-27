@@ -1,5 +1,5 @@
 const getEfectos = require("express").Router();
-const { Efecto } = require("../db");
+const { Efecto } = require("../../db");
 
 getEfectos.get("/", async (req, res) => {
   try {

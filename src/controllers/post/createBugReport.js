@@ -1,5 +1,5 @@
 const createBugReport = require("express").Router();
-const { BugReport } = require("../db");
+const { BugReport } = require("../../db");
 
 createBugReport.post("/", async (req, res) => {
   const bugReport = req.body.bugReport;

@@ -1,5 +1,5 @@
 const removeBolsa = require("express").Router();
-const { Bolsa } = require("../db");
+const { Bolsa } = require("../../db");
 
 removeBolsa.delete("/", async (req, res) => {
   try {

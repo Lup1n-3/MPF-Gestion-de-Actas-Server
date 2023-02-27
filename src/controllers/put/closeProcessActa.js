@@ -1,5 +1,5 @@
 const closeProcessActa = require("express").Router();
-const { Acta, Perito, Integrante, Bolsa, Efecto, Sd, Sim, Disco } = require("../db");
+const { Acta, Perito, Integrante, Bolsa, Efecto, Sd, Sim, Disco } = require("../../db");
 
 const formatMonth = (month) => {
   switch (month + 1) {

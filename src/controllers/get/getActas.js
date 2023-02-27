@@ -1,5 +1,5 @@
 const getActas = require("express").Router();
-const { Acta } = require("../db");
+const { Acta } = require("../../db");
 
 getActas.get("/", async (req, res) => {
   try {
