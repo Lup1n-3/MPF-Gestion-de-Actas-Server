@@ -2,8 +2,8 @@ const addEfecto = require("express").Router();
 const { Efecto, Sim, Disco, Sd, Bolsa } = require("../../db");
 
 addEfecto.post("/", async (req, res) => {
+  //* saco la info
   const { bolsa_id } = req.query;
-  //* saco info del body
   const sims = req.body.sims;
   const discos = req.body.discos;
   const sds = req.body.sds;
@@ -11,6 +11,7 @@ addEfecto.post("/", async (req, res) => {
   try {
     //* Actualizo los estados de la bolsa
     const bolsa = await Bolsa.findByPk(bolsa_id);
+
     if (bolsa) {
       if (req.body.efecto.estado === "completo") {
         if (bolsa.estado !== "abierta con efectos en proceso") {
@@ -42,11 +43,12 @@ addEfecto.post("/", async (req, res) => {
     //* Creo las Sds con FK al efecto
     await Sd.bulkCreate(sds);
 
-    const finalEfecto = await Efecto.findByPk(newEfecto.id, { include: { all: true } });
+    const finalEfecto = await Efecto.findByPk(newEfecto.id, { include: { all: true } }); //* Me traigo el efecto actulizado con los modelos de Sims, Sds y Discos
 
-    return res.status(200).json(finalEfecto);
+    return res.status(200).send(finalEfecto);
   } catch (err) {
     console.log(err);
+    return res.status(500).send(err);
   }
 });
 

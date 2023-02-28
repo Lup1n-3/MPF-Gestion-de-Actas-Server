@@ -2,21 +2,21 @@ const addActa = require("express").Router();
 const { Acta } = require("../../db");
 
 addActa.post("/", async (req, res) => {
-  try {
-    const {
-      mpfOrDen: nro_mpf,
-      cij: nro_cij,
-      dil: nro_dil,
-      coop: nro_coop,
-      nroCausa: nro_causa,
-      caratula,
-      solicitante,
-      dias,
-      mes,
-      anio,
-      hora,
-    } = req.body;
+  const {
+    mpfOrDen: nro_mpf,
+    cij: nro_cij,
+    dil: nro_dil,
+    coop: nro_coop,
+    nroCausa: nro_causa,
+    caratula,
+    solicitante,
+    dias,
+    mes,
+    anio,
+    hora,
+  } = req.body;
 
+  try {
     const newActa = await Acta.create({
       //* Crea el acta
       nro_mpf,
@@ -32,7 +32,7 @@ addActa.post("/", async (req, res) => {
       hora,
     });
 
-    return res.status(200).json(newActa);
+    return res.status(200).send(newActa);
   } catch (err) {
     console.log(err);
     return res.statusCode(500).send(err);
