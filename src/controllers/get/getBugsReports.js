@@ -4,9 +4,11 @@ const { BugReport } = require("../../db");
 getBugsReports.get("/", async (req, res) => {
   try {
     const bugsReports = await BugReport.findAll();
-    return res.json(bugsReports);
+
+    return res.send(bugsReports);
   } catch (err) {
     console.log(err);
+    return res.status(500).send(err);
   }
 });
 

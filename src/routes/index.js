@@ -9,7 +9,6 @@ const addIntegrantes = require("../controllers/post/addIntegrantes");
 const createBugReport = require("../controllers/post/createBugReport");
 //* Get
 const getActas = require("../controllers/get/getActas");
-const getEfectos = require("../controllers/get/getEfectos");
 const getBugsReports = require("../controllers/get/getBugsReports");
 const getUpdatedBolsas = require("../controllers/get/getUpdatedBolsas");
 //* Put
@@ -33,7 +32,6 @@ router.use("/addIntegrantes", addIntegrantes);
 router.use("/createBugReport", createBugReport);
 //* Get
 router.use("/getActas", getActas);
-router.use("/getEfectos", getEfectos);
 router.use("/getBugsReports", getBugsReports);
 router.use("/getUpdatedBolsas", getUpdatedBolsas);
 //* Put

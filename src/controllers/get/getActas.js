@@ -3,37 +3,25 @@ const { Acta } = require("../../db");
 
 getActas.get("/", async (req, res) => {
   try {
-    const { enProceso } = req.query;
+    const allActas = await Acta.findAll({ include: { all: true, nested: true } }); //* Me traigo todas las actas con todas sus relaciones
 
-    const actas = await Acta.findAll({ include: { all: true, nested: true } }); //* Guardo todas las actas con todas sus tablas
-
-    if (enProceso) {
-      //* Devuelve todas las actas en proceso, con o sin filtros
-      const actasEnProceso = actas.filter((acta) => acta.estado === "en proceso"); //* Guardo las actas en proceso
-
-      if (actasEnProceso) {
-        return res.status(200).json(actasEnProceso);
-      }
-    } else {
-      //* Si no me pasaron enProceso === true devuelvo todas las actas
-      return res.status(200).json(actas);
-    }
+    return res.status(200).send(allActas);
   } catch (err) {
     console.log(err);
+    return res.status(500).send(err);
   }
 });
 
 getActas.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const { id } = req.params;
+    const acta = await Acta.findByPk(id, { include: { all: true, nested: true } }); //* Me traigo el acta con todas sus relaciones
 
-    const acta = await Acta.findByPk(id, { include: { all: true, nested: true } });
-
-    if (acta) {
-      return res.status(200).json(acta);
-    }
+    return res.status(200).send(acta);
   } catch (err) {
     console.log(err);
+    return res.status(500).send(err);
   }
 });
 
