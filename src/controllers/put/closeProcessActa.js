@@ -1,6 +1,7 @@
 const closeProcessActa = require("express").Router();
 const { Acta, Perito, Integrante, Bolsa, Efecto, Sd, Sim, Disco } = require("../../db");
 
+const fecha = new Date();
 const formatMonth = (month) => {
   switch (month + 1) {
     case 1: {
@@ -46,33 +47,31 @@ const formatMonth = (month) => {
 };
 
 closeProcessActa.put("/", async (req, res) => {
-  const id = req.query.acta_id;
-  const fecha = new Date();
-
   try {
-    //* Depreco el acta
-    const acta = await Acta.findByPk(id, { include: { all: true, nested: true } });
-    acta.estado = "deprecada";
-    acta.save();
+    //* Depreco el acta actual
+    const deprecatedActa = await Acta.findByPk(req.query.acta_id, { include: { all: true, nested: true } });
+    deprecatedActa.estado = "deprecada";
+    deprecatedActa.save();
 
-    //* Creo el acta nueva
+    //* Creo un acta nueva a partir de la deprecada
     const newActa = await Acta.create({
-      nro_mpf: acta.nro_mpf,
-      nro_dil: acta.nro_dil,
-      nro_cij: acta.nro_cij,
-      nro_coop: acta.nro_coop,
-      nro_causa: acta.nro_causa,
-      solicitante: acta.solicitante,
-      caratula: acta.caratula,
-      estado: "para completar",
-      processToComplete: "true",
+      nro_mpf: deprecatedActa.nro_mpf,
+      nro_dil: deprecatedActa.nro_dil,
+      nro_cij: deprecatedActa.nro_cij,
+      nro_coop: deprecatedActa.nro_coop,
+      nro_causa: deprecatedActa.nro_causa,
+      solicitante: deprecatedActa.solicitante,
+      caratula: deprecatedActa.caratula,
+      estado: "para completar", //! Pongo estado "para completar" para que el FE la reconozca como una copia de un acta
+      processToComplete: "true", //! Agrego flag processToComplete para que la reconozca el template
       dias: fecha.getDate(),
       mes: formatMonth(fecha.getMonth()),
       anio: fecha.getFullYear(),
       hora: `${fecha.getHours()}:${fecha.getMinutes()}`,
     });
-    //* Creo los peritos nuevos
-    acta.Peritos.forEach(async (p) => {
+
+    //* Creo los peritos nuevos a partir de los deprecados
+    deprecatedActa.Peritos.forEach(async (p) => {
       await Perito.create({
         acta_id: newActa.id,
         nombreYApellido: p.nombreYApellido,
@@ -80,8 +79,9 @@ closeProcessActa.put("/", async (req, res) => {
         dni: p.dni,
       });
     });
-    //* Creo los integrantes nuevos
-    acta.Integrantes.forEach(async (i) => {
+
+    //* Creo los integrantes nuevos a partir de los deprecados
+    deprecatedActa.Integrantes.forEach(async (i) => {
       await Integrante.create({
         acta_id: newActa.id,
         nombreYApellido: i.nombreYApellido,
@@ -91,21 +91,23 @@ closeProcessActa.put("/", async (req, res) => {
       });
     });
 
-    //* Mapeo las bolsas y creo la copia
-    acta.Bolsas.forEach(async (b) => {
+    //* Mapeo las bolsas del acta deprecada y creo una copia de todas
+    deprecatedActa.Bolsas.forEach(async (b) => {
+      //* Creo la bolsa nueva con los datos de la bolsa que estoy loopeando
       const newBolsa = await Bolsa.create({
         acta_id: newActa.id,
         nroPrecinto: b.nroPrecinto,
         colorPrecinto: b.colorPrecinto,
         observaciones: b.observaciones,
         leyenda: b.leyenda,
-        nroPrecintoBlanco: b.estado === "cerrada" ? b.nroPrecintoBlanco : null,
-        estado: b.estado === "cerrada" ? b.estado : "abierta con efectos completos",
-        processToCompleteBolsa: b.estado === "cerrada" ? "false" : "true",
+        nroPrecintoBlanco: b.estado === "cerrada" ? b.nroPrecintoBlanco : null, //! Si estaba cerrada, queda cerrada. Sino, queda sin precinto
+        estado: b.estado === "cerrada" ? b.estado : "abierta con efectos completos", //! Si estaba cerrada, queda cerrada. Sino, cambio estado para que permita el cierre
+        processToCompleteBolsa: b.estado === "cerrada" ? "false" : "true", //! Si estaba cerrada, no se imprime en el template. Sino, si
       });
 
-      //* Mapeo los efectos y creo la copia
+      //* Mapeo los efectos deprecados de las bolsas! y creo una copia de todos
       b.Efectos.forEach(async (e) => {
+        //* Creo el efecto nuevo con los datos del efecto que estoy loopeando
         const newEfecto = await Efecto.create({
           bolsa_id: newBolsa.id,
           tipoDeElemento: e.tipoDeElemento,
@@ -117,7 +119,7 @@ closeProcessActa.put("/", async (req, res) => {
           desbloqueo: e.desbloqueo,
           herramientaSoft: e.herramientaSoft,
           tipoExtraccion: e.tipoExtraccion,
-          estado: "completo",
+          estado: "completo", //! Le cambio el estado a "completo" ya que para esto es esta logica
           extraccion: e.extraccion,
           almacenamiento: e.almacenamiento,
           encendido: e.encendido,
@@ -153,7 +155,7 @@ closeProcessActa.put("/", async (req, res) => {
             almacenamiento: disco.almacenamiento,
             serialNumber: disco.serialNumber,
             herramientaSoftDisco: disco.herramientaSoftDisco,
-            estadoDisco: "completo",
+            estadoDisco: "completo", //! Cambio el estado del disco tambien
           });
         });
       });
@@ -161,8 +163,17 @@ closeProcessActa.put("/", async (req, res) => {
 
     return res.status(200).send(newActa);
   } catch (err) {
+    consooe.log(err);
     return res.status(500).send(err);
   }
 });
 
 module.exports = closeProcessActa;
+
+/*
+?   Esta logica sirve y cumple la funcion de DEPRECAR un acta con efectos EN PROCESO para crear una copia de la misma,
+?   cambiar los efectos a completos y poder agregarle precintos blancos a las bolsas que estaban en proceso en el acta que ahora en la DB va a quedar deprecada,
+?   de esta forma de genera un registro del acta. El acta deprecada no va a aparecer en los registros del FE, excepto en la seccion de ADMIN.
+
+?   -RFD
+*/
