@@ -3,7 +3,7 @@ const { Perito } = require("../../db");
 
 addPeritos.post("/", async (req, res) => {
   try {
-    const newPerito = await Perito.bulkCreate(req.body.peritos);
+    const newPerito = await Perito.bulkCreate(req.body);
 
     return res.status(200).json(newPerito);
   } catch (err) {
