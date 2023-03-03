@@ -57,6 +57,9 @@ module.exports = (sequelize) => {
       observacionFalla: {
         type: DataTypes.STRING,
       },
+      tipoDeDisco: {
+        type: DataTypes.STRING,
+      },
       fecha: {
         type: DataTypes.STRING,
         defaultValue: new Date().toLocaleString(),
