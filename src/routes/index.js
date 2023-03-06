@@ -7,6 +7,7 @@ const addBolsa = require("../controllers/post/addBolsa");
 const addPeritos = require("../controllers/post/addPeritos");
 const addIntegrantes = require("../controllers/post/addIntegrantes");
 const createBugReport = require("../controllers/post/createBugReport");
+const addUser = require("../controllers/post/addUser");
 //* Get
 const getActas = require("../controllers/get/getActas");
 const getBugsReports = require("../controllers/get/getBugsReports");
@@ -30,6 +31,7 @@ router.use("/addBolsa", addBolsa);
 router.use("/addPeritos", addPeritos);
 router.use("/addIntegrantes", addIntegrantes);
 router.use("/createBugReport", createBugReport);
+router.use("/addUser", addUser);
 //* Get
 router.use("/getActas", getActas);
 router.use("/getBugsReports", getBugsReports);

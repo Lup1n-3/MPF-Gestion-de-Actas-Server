@@ -3,7 +3,7 @@ const { Bolsa } = require("../../db");
 
 addBolsa.post("/", async (req, res) => {
   try {
-    const newBolsa = await Bolsa.create({ ...req.body }); //* Creo la bolsa
+    const newBolsa = await Bolsa.create(req.body); //* Creo la bolsa
 
     const updatedBolsa = await Bolsa.findByPk(newBolsa.id, { include: { all: true, nested: true } });
 
