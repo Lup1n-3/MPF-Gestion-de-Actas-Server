@@ -12,6 +12,7 @@ const addUser = require("../controllers/post/addUser");
 const getActas = require("../controllers/get/getActas");
 const getBugsReports = require("../controllers/get/getBugsReports");
 const getUpdatedBolsas = require("../controllers/get/getUpdatedBolsas");
+const getUsers = require("../controllers/get/getUsers");
 //* Put
 const updateBolsa = require("../controllers/put/updateBolsa");
 const updateActa = require("../controllers/put/updateActa");
@@ -36,6 +37,8 @@ router.use("/addUser", addUser);
 router.use("/getActas", getActas);
 router.use("/getBugsReports", getBugsReports);
 router.use("/getUpdatedBolsas", getUpdatedBolsas);
+router.use("/getUsers", getUsers);
+
 //* Put
 router.use("/updateBolsa", updateBolsa);
 router.use("/updateActa", updateActa);
