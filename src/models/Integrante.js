@@ -10,9 +10,7 @@ module.exports = (sequelize) => {
       cargo: {
         type: DataTypes.STRING,
       },
-      dni: {
-        type: DataTypes.BIGINT,
-      },
+
       legajoOMatricula: {
         type: DataTypes.BIGINT,
       },

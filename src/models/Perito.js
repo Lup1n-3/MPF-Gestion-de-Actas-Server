@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
       cargo: {
         type: DataTypes.STRING,
       },
-      dni: {
+      Legajo: {
         type: DataTypes.BIGINT,
       },
       fecha: {

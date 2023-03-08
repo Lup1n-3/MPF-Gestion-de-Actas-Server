@@ -76,7 +76,7 @@ closeProcessActa.put("/", async (req, res) => {
         acta_id: newActa.id,
         nombreYApellido: p.nombreYApellido,
         cargo: p.cargo,
-        dni: p.dni,
+        legajo: p.legajo,
       });
     });
 
@@ -86,7 +86,6 @@ closeProcessActa.put("/", async (req, res) => {
         acta_id: newActa.id,
         nombreYApellido: i.nombreYApellido,
         cargo: i.cargo,
-        dni: i.dni,
         legajoOMatricula: i.legajoOMatricula,
       });
     });
