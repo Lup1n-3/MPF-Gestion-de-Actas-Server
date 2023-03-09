@@ -2,17 +2,26 @@ const addUser = require("express").Router();
 const { User } = require("../../db");
 
 addUser.post("/", async (req, res) => {
+  const users = req.body;
   try {
-    //* Verificar si el usuario ya existe por legajo
-    const existingUser = await User.findOne({ where: { legajo: req.body.legajo } });
-    if (existingUser) {
-      return res.status(409).json({ message: "El usuario ya existe" });
+    users.map(async (u) => {
+      await User.findOrCreate({
+        where: { legajo: u.legajo, username: u.username },
+        defaults: {
+          nombreYApellido: u.nombreYApellido,
+          legajo: u.legajo,
+          cargo: u.cargo,
+          username: u.username,
+          password: u.password,
+        },
+      });
+    });
+
+    const newUsers = await User.findAll();
+
+    if (newUsers) {
+      return res.status(200).json(newUsers);
     }
-
-    //* Si el usuario no existe, crearlo
-    const newUser = await User.create(req.body);
-
-    res.status(201).json(newUser);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error al crear el usuario" });
