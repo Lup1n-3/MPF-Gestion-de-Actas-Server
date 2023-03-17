@@ -12,16 +12,15 @@ addEfecto.post("/", async (req, res) => {
     //* Actualizo los estados de la bolsa
     const bolsa = await Bolsa.findByPk(bolsa_id);
 
-    if (bolsa) {
-      if (req.body.efecto.estado === "completo") {
-        if (bolsa.estado !== "abierta con efectos en proceso") {
-          bolsa.estado = "abierta con efectos completos";
-        }
-      } else {
-        bolsa.estado = "abierta con efectos en proceso";
+    if (req.body.efecto.estado === "completo") {
+      if (bolsa.estado !== "abierta con efectos en proceso") {
+        bolsa.estado = "abierta con efectos completos";
       }
-      bolsa.save();
+    } else {
+      bolsa.estado = "abierta con efectos en proceso";
     }
+
+    await bolsa.save();
 
     const newEfecto = await Efecto.create({
       bolsa_id: bolsa_id,
@@ -45,10 +44,10 @@ addEfecto.post("/", async (req, res) => {
 
     const finalEfecto = await Efecto.findByPk(newEfecto.id, { include: { all: true } }); //* Me traigo el efecto actulizado con los modelos de Sims, Sds y Discos
 
-    return res.status(200).send(finalEfecto);
+    return res.status(200).json(finalEfecto);
   } catch (err) {
     console.log(err);
-    return res.status(500).send(err);
+    return res.status(500).json(err);
   }
 });
 

@@ -6,24 +6,21 @@ updateBolsa.put("/", async (req, res) => {
 
   try {
     const bolsa = await Bolsa.findByPk(id, { include: { all: true, nested: true } }); //* Me traigo la bolsa con sus relaciones
-
+    const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true, nested: true } });
     const changeStates = async () => {
-      const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true, nested: true } }); //* Me traigo el acta con sus relaciones
-
       //* Separo las bolsas cerradas en proceso y abiertas
       const bagsInProcessToClose = acta.Bolsas.filter((b) => b.estado === "abierta con efectos en proceso");
       const bagsInProcess = acta.Bolsas.filter((b) => b.estado === "cerrada en proceso");
 
       if (bagsInProcessToClose.length > 0) {
         //* Si el acta sigue teniendo bolsas para cerrar sigue con estado = "en creacion"
-        acta.estado = "en creacion";
+        await Acta.update({ estado: "en creacion" }, { where: { id: bolsa.acta_id } });
       } else if (bagsInProcess.length > 0) {
         //* Si el acta solo tiene bolsas en proceso pone el estado = "en proceso"
-        acta.estado = "en proceso";
+        await Acta.update({ estado: "en proceso" }, { where: { id: bolsa.acta_id } });
       } else {
-        acta.estado = "completa"; //* Sino, la completa, porque significa que todas las bolsas estan cerradas completas
+        await Acta.update({ estado: "completa" }, { where: { id: bolsa.acta_id } });
       }
-      await acta.save();
     };
 
     if (!leyenda) {
@@ -32,14 +29,14 @@ updateBolsa.put("/", async (req, res) => {
       bolsa.estado = "cerrada";
       await bolsa.save();
 
-      changeStates(); //* actualizo estados
+      await changeStates(); //* actualizo estados
     } else {
       //* Si tiene leyenda agrego la leyenda y dejo la bolsa en proceso
       bolsa.leyenda = leyenda;
       bolsa.estado = "cerrada en proceso";
       await bolsa.save();
 
-      changeStates(); //* Actualizo estados
+      await changeStates(); //* Actualizo estados
     }
 
     res.status(200).send(bolsa);
