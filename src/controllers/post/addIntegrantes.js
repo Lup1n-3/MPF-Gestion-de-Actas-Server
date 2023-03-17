@@ -3,7 +3,7 @@ const { Integrante } = require("../../db");
 
 addIntegrantes.post("/", async (req, res) => {
   try {
-    const newIntegrante = await Integrante.bulkCreate(req.body.integrantes);
+    const newIntegrante = await Integrante.bulkCreate(req.body);
 
     return res.status(200).json(newIntegrante);
   } catch (err) {
