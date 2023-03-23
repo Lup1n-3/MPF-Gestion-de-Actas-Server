@@ -17,15 +17,12 @@ updateBolsa.put("/", async (req, res) => {
       const bagsCompleted = acta.Bolsas.filter((b) => b.estado === "cerrada");
 
       if (bagsInProcessToClose.length > 0 || bagsCompletedToClose.length > 0) {
-        console.log("ENTRE A 1");
         //* Si el acta sigue teniendo bolsas para cerrar sigue con estado = "en creacion"
         await Acta.update({ estado: "en creacion" }, { where: { id: acta_id } });
       } else if (bagsInProcess.length > 0) {
-        console.log("ENTRE A 2");
         //* Si el acta tiene alguna bolsa en proceso pone el estado = "en proceso"
         await Acta.update({ estado: "en proceso" }, { where: { id: acta_id } });
       } else if (bagsInProcess.length === 0 && bagsCompleted.length > 0) {
-        console.log("ENTRE A 3");
         //* Pone estado completa solo si no tiene bolsas en proceso y tiene solo completas
         await Acta.update({ estado: "completa" }, { where: { id: acta_id } });
       }
