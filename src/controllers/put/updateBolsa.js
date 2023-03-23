@@ -12,12 +12,11 @@ updateBolsa.put("/", async (req, res) => {
       //* Bolsas abiertas
       const bagsInProcessToClose = acta.Bolsas.filter((b) => b.estado === "abierta con efectos en proceso");
       const bagsCompletedToClose = acta.Bolsas.filter((b) => b.estado === "abierta con efectos completos");
-
       //* Bolsas cerradas
       const bagsInProcess = acta.Bolsas.filter((b) => b.estado === "cerrada en proceso");
       const bagsCompleted = acta.Bolsas.filter((b) => b.estado === "cerrada");
 
-      if (bagsInProcessToClose.length > 0 || bagsCompletedToClose.length < 0) {
+      if (bagsInProcessToClose.length > 0 || bagsCompletedToClose.length > 0) {
         console.log("ENTRE A 1");
         //* Si el acta sigue teniendo bolsas para cerrar sigue con estado = "en creacion"
         await Acta.update({ estado: "en creacion" }, { where: { id: acta_id } });
