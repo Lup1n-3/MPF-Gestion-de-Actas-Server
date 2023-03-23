@@ -5,38 +5,41 @@ updateBolsa.put("/", async (req, res) => {
   const { nroPrecintoBlanco, id, leyenda } = req.body;
 
   try {
-    const bolsa = await Bolsa.findByPk(id, { include: { all: true, nested: true } }); //* Me traigo la bolsa con sus relaciones
-    const acta = await Acta.findByPk(bolsa.acta_id, { include: { all: true, nested: true } });
-    const changeStates = async () => {
-      //* Separo las bolsas cerradas en proceso y abiertas
-      const bagsInProcessToClose = acta.Bolsas.filter((b) => b.estado === "abierta con efectos en proceso");
-      const bagsInProcess = acta.Bolsas.filter((b) => b.estado === "cerrada en proceso");
+    const bolsa = await Bolsa.findByPk(id, { include: { all: true, nested: true } });
 
-      if (bagsInProcessToClose.length > 0) {
+    const changeStates = async (acta_id) => {
+      const acta = await Acta.findByPk(acta_id, { include: { all: true, nested: true } });
+      //* Bolsas abiertas
+      const bagsInProcessToClose = acta.Bolsas.filter((b) => b.estado === "abierta con efectos en proceso");
+      const bagsCompletedToClose = acta.Bolsas.filter((b) => b.estado === "abierta con efectos completos");
+
+      //* Bolsas cerradas
+      const bagsInProcess = acta.Bolsas.filter((b) => b.estado === "cerrada en proceso");
+      const bagsCompleted = acta.Bolsas.filter((b) => b.estado === "cerrada");
+
+      if (bagsInProcessToClose.length > 0 || bagsCompletedToClose.length < 0) {
+        console.log("ENTRE A 1");
         //* Si el acta sigue teniendo bolsas para cerrar sigue con estado = "en creacion"
-        await Acta.update({ estado: "en creacion" }, { where: { id: bolsa.acta_id } });
+        await Acta.update({ estado: "en creacion" }, { where: { id: acta_id } });
       } else if (bagsInProcess.length > 0) {
-        //* Si el acta solo tiene bolsas en proceso pone el estado = "en proceso"
-        await Acta.update({ estado: "en proceso" }, { where: { id: bolsa.acta_id } });
-      } else {
-        await Acta.update({ estado: "completa" }, { where: { id: bolsa.acta_id } });
+        console.log("ENTRE A 2");
+        //* Si el acta tiene alguna bolsa en proceso pone el estado = "en proceso"
+        await Acta.update({ estado: "en proceso" }, { where: { id: acta_id } });
+      } else if (bagsInProcess.length === 0 && bagsCompleted.length > 0) {
+        console.log("ENTRE A 3");
+        //* Pone estado completa solo si no tiene bolsas en proceso y tiene solo completas
+        await Acta.update({ estado: "completa" }, { where: { id: acta_id } });
       }
     };
 
     if (!leyenda) {
       //* si no tiene leyenda, agrego precinto blanco y cierro la bolsa
-      bolsa.nroPrecintoBlanco = nroPrecintoBlanco;
-      bolsa.estado = "cerrada";
-      await bolsa.save();
-
-      await changeStates(); //* actualizo estados
+      await Bolsa.update({ nroPrecintoBlanco: nroPrecintoBlanco, estado: "cerrada" }, { where: { id: id } });
+      await changeStates(bolsa.acta_id); //* actualizo estados
     } else {
       //* Si tiene leyenda agrego la leyenda y dejo la bolsa en proceso
-      bolsa.leyenda = leyenda;
-      bolsa.estado = "cerrada en proceso";
-      await bolsa.save();
-
-      await changeStates(); //* Actualizo estados
+      await Bolsa.update({ leyenda: leyenda, estado: "cerrada en proceso" }, { where: { id: id } });
+      await changeStates(bolsa.acta_id); //* Actualizo estados
     }
 
     res.status(200).send(bolsa);

@@ -3,7 +3,7 @@ const config = {
   DB_HOST: "localhost",
   DB_USER: "gidsi",
   DB_PASSWORD: "gidsi12345",
-  DB_NAME: "MPF_Gestion_De_Actas",
+  DB_NAME: "mpf_gestion_de_actas",
   DB_PORT: 3306,
 };
 
