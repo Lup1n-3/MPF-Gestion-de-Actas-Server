@@ -162,7 +162,7 @@ closeProcessActa.put("/", async (req, res) => {
 
     return res.status(200).send(newActa);
   } catch (err) {
-    consooe.log(err);
+    console.log(err);
     return res.status(500).send(err);
   }
 });
