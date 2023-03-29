@@ -22,6 +22,15 @@ module.exports = (sequelize) => {
       herramientaSoftDisco: {
         type: DataTypes.STRING,
       },
+      tipoExtraccionDisco: {
+        type: DataTypes.STRING,
+      },
+      discoFallado: {
+        type: DataTypes.STRING,
+      },
+      observacionFallaDisco: {
+        type: DataTypes.STRING,
+      },
       estadoDisco: {
         type: DataTypes.STRING,
       },
