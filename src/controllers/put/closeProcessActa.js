@@ -87,6 +87,7 @@ closeProcessActa.put("/", async (req, res) => {
         nombreYApellido: i.nombreYApellido,
         cargo: i.cargo,
         legajoOMatricula: i.legajoOMatricula,
+        locacion: i.locacion,
       });
     });
 
@@ -125,6 +126,8 @@ closeProcessActa.put("/", async (req, res) => {
           observacionEncendido: e.observacionEncendido,
           elementoFallado: e.elementoFallado,
           observacionFalla: e.observacionFalla,
+          tipoDeDisco: e.tipoDeDisco,
+          color: e.color,
         });
 
         //* Mapeo y creo cada elemento del Efecto si es que existe
