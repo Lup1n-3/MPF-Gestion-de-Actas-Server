@@ -14,6 +14,9 @@ module.exports = (sequelize) => {
       legajoOMatricula: {
         type: DataTypes.BIGINT,
       },
+      locacion: {
+        type: DataTypes.STRING,
+      },
       fecha: {
         type: DataTypes.STRING,
         defaultValue: new Date().toLocaleString(),
