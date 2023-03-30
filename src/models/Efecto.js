@@ -60,6 +60,9 @@ module.exports = (sequelize) => {
       tipoDeDisco: {
         type: DataTypes.STRING,
       },
+      color: {
+        type: DataTypes.STRING,
+      },
       fecha: {
         type: DataTypes.STRING,
         defaultValue: new Date().toLocaleString(),
