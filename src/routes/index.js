@@ -38,7 +38,6 @@ router.use("/getActas", getActas);
 router.use("/getBugsReports", getBugsReports);
 router.use("/getUpdatedBolsas", getUpdatedBolsas);
 router.use("/getUsers", getUsers);
-
 //* Put
 router.use("/updateBolsa", updateBolsa);
 router.use("/updateActa", updateActa);
