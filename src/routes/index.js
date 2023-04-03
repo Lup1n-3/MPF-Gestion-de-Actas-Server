@@ -17,6 +17,8 @@ const getUsers = require("../controllers/get/getUsers");
 const updateBolsa = require("../controllers/put/updateBolsa");
 const updateActa = require("../controllers/put/updateActa");
 const closeProcessActa = require("../controllers/put/closeProcessActa");
+const editEfecto = require("../controllers/put/editEfecto");
+
 //* Delete
 const removeIntegrante = require("../controllers/delete/removeIntegrante");
 const removePerito = require("../controllers/delete/removePerito");
@@ -42,6 +44,8 @@ router.use("/getUsers", getUsers);
 router.use("/updateBolsa", updateBolsa);
 router.use("/updateActa", updateActa);
 router.use("/closeProcessActa", closeProcessActa);
+router.use("/editEfecto", editEfecto);
+
 //* Delete
 router.use("/removeIntegrante", removeIntegrante);
 router.use("/removePerito", removePerito);
