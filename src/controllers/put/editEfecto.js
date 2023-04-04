@@ -1,14 +1,25 @@
 const editEfecto = require("express").Router();
-const { Acta, Efecto, Sim, Sd, Disco } = require("../../db");
+const { Acta, Efecto, Sim, Sd, Disco, Bolsa } = require("../../db");
 
 editEfecto.put("/", async (req, res) => {
   const { efecto, discos, sims, sds, acta_id } = req.body;
 
   try {
-    // Actualiza el efecto existente
+    //* Actualiza el efecto existente
     await Efecto.update(efecto, { where: { id: efecto.id } });
 
-    // Crea y relaciona los nuevos elementos
+    //* Si el elemento es una notebook o un gabinete, actualizar estado en función de los discos
+    if (efecto.tipoDeElemento === "notebook" || efecto.tipoDeElemento === "gabinete") {
+      console.log("entre");
+      console.log(discos);
+      const atLeastOneDiskInProcess = discos.some((d) => d.estadoDisco === "en proceso");
+      efecto.estado = atLeastOneDiskInProcess ? "en proceso" : "completo";
+      console.log("Disco en proceso-->", atLeastOneDiskInProcess);
+
+      await Efecto.update(efecto, { where: { id: efecto.id } });
+    }
+
+    //* Crea y relaciona los nuevos elementos
     await Promise.all(
       sims.map(async (sim) => {
         const nuevoSim = await Sim.create({ ...sim, efecto_id: efecto.id });
@@ -30,12 +41,28 @@ editEfecto.put("/", async (req, res) => {
       })
     );
 
-    // Busca todos los efectos relacionados con el acta
+    //* Busca todos los efectos relacionados con el acta
     const acta = await Acta.findByPk(acta_id, { include: { all: true, nested: true } });
     const efectos = [];
     acta.Bolsas.map((b) => {
       efectos.push(...b.Efectos);
     });
+
+    //* Actualiza el estado de la bolsa si es necesario
+    const bolsa_id = efecto.bolsa_id;
+    const efectosActuales = await Efecto.findAll({ where: { bolsa_id } });
+    const allEffectsComplete = efectosActuales.every((e) => e.estado === "completo");
+
+    const bolsaEstado =
+      efecto.estado === "en proceso"
+        ? "abierta con efectos en proceso"
+        : allEffectsComplete
+        ? "abierta con efectos completos"
+        : "abierta con efectos en proceso";
+
+    const bolsa = await Bolsa.findByPk(bolsa_id);
+    bolsa.estado = bolsaEstado;
+    await bolsa.save();
 
     return res.status(200).json(efectos);
   } catch (err) {
