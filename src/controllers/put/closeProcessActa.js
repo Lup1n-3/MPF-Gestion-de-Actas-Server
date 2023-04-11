@@ -120,6 +120,7 @@ closeProcessActa.put("/", async (req, res) => {
           herramientaSoft: e.herramientaSoft,
           tipoExtraccion: e.tipoExtraccion,
           estado: "completo", //! Le cambio el estado a "completo" ya que para esto es esta logica
+          processToCompleteEfecto: e.estado === "completo" ? "false" : "", //! Si estaba completo, se imprime resumido, sino normal
           extraccion: e.extraccion,
           almacenamiento: e.almacenamiento,
           encendido: e.encendido,

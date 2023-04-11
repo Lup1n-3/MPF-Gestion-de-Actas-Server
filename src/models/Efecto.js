@@ -67,6 +67,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         defaultValue: new Date().toLocaleString(),
       },
+      processToCompleteEfecto: {
+        type: DataTypes.STRING,
+        defaultValue: "",
+      },
     },
     {
       timestamps: false,
