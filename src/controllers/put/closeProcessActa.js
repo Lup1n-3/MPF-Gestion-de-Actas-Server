@@ -136,7 +136,7 @@ closeProcessActa.put("/", async (req, res) => {
           await Sd.create({
             efecto_id: newEfecto.id,
             marca: sd.marca,
-            modelo: sd.modelo,
+            serialNumber: sd.serialNumber,
             almacenamiento: sd.almacenamiento,
             tipoExtraccionSd: sd.tipoExtraccionSd,
           });

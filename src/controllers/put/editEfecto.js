@@ -10,11 +10,8 @@ editEfecto.put("/", async (req, res) => {
 
     //* Si el elemento es una notebook o un gabinete, actualizar estado en función de los discos
     if (efecto.tipoDeElemento === "notebook" || efecto.tipoDeElemento === "gabinete") {
-      console.log("entre");
-      console.log(discos);
       const atLeastOneDiskInProcess = discos.some((d) => d.estadoDisco === "en proceso");
       efecto.estado = atLeastOneDiskInProcess ? "en proceso" : "completo";
-      console.log("Disco en proceso-->", atLeastOneDiskInProcess);
 
       await Efecto.update(efecto, { where: { id: efecto.id } });
     }

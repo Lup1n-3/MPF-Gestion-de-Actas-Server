@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
       marca: {
         type: DataTypes.STRING,
       },
-      modelo: {
+      serialNumber: {
         type: DataTypes.STRING,
       },
       almacenamiento: {
