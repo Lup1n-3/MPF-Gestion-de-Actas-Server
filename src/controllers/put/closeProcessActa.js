@@ -158,6 +158,9 @@ closeProcessActa.put("/", async (req, res) => {
             almacenamiento: disco.almacenamiento,
             serialNumber: disco.serialNumber,
             herramientaSoftDisco: disco.herramientaSoftDisco,
+            tipoExtraccionDisco: disco.tipoExtraccionDisco,
+            discoFallado: disco.discoFallado,
+            observacionFallaDisco: disco.observacionFallaDisco,
             estadoDisco: "completo", //! Cambio el estado del disco tambien
           });
         });
