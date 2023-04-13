@@ -129,6 +129,7 @@ closeProcessActa.put("/", async (req, res) => {
           observacionFalla: e.observacionFalla,
           tipoDeDisco: e.tipoDeDisco,
           color: e.color,
+          unidadAlmacenamientoDetalle: e.unidadAlmacenamientoDetalle,
         });
 
         //* Mapeo y creo cada elemento del Efecto si es que existe

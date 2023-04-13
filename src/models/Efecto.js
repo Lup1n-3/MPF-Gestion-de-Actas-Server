@@ -71,6 +71,9 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         defaultValue: "",
       },
+      unidadAlmacenamientoDetalle: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,
