@@ -33,8 +33,12 @@ editEfecto.put("/", async (req, res) => {
 
     await Promise.all(
       discos.map(async (disco) => {
-        const nuevoDisco = await Disco.create({ ...disco, efecto_id: efecto.id });
-        return nuevoDisco;
+        if (disco.edit) {
+          return await Disco.update(disco, { where: { id: disco.id } });
+        } else {
+          const nuevoDisco = await Disco.create({ ...disco, efecto_id: efecto.id });
+          return nuevoDisco;
+        }
       })
     );
 
