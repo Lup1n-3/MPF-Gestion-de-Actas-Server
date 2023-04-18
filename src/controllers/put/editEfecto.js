@@ -19,15 +19,23 @@ editEfecto.put("/", async (req, res) => {
     //* Crea y relaciona los nuevos elementos
     await Promise.all(
       sims.map(async (sim) => {
-        const nuevoSim = await Sim.create({ ...sim, efecto_id: efecto.id });
-        return nuevoSim;
+        if (sim.edit) {
+          return await Sim.update(sim, { where: { id: sim.id } });
+        } else {
+          const nuevoSim = await Sim.create({ ...sim, efecto_id: efecto.id });
+          return nuevoSim;
+        }
       })
     );
 
     await Promise.all(
       sds.map(async (sd) => {
-        const nuevoSd = await Sd.create({ ...sd, efecto_id: efecto.id });
-        return nuevoSd;
+        if (sd.edit) {
+          return await Sd.update(sd, { where: { id: sd.id } });
+        } else {
+          const nuevoSd = await Sd.create({ ...sd, efecto_id: efecto.id });
+          return nuevoSd;
+        }
       })
     );
 
