@@ -1,52 +1,54 @@
 const closeProcessActa = require("express").Router();
 const { Acta, Perito, Integrante, Bolsa, Efecto, Sd, Sim, Disco } = require("../../db");
 
-const fecha = new Date();
-const formatMonth = (month) => {
-  switch (month + 1) {
-    case 1: {
-      return "Enero";
-    }
-    case 2: {
-      return "Febrero";
-    }
-    case 3: {
-      return "Marzo";
-    }
-    case 4: {
-      return "Abril";
-    }
-    case 5: {
-      return "Mayo";
-    }
-    case 6: {
-      return "Junio";
-    }
-    case 7: {
-      return "Julio";
-    }
-    case 8: {
-      return "Agosto";
-    }
-    case 9: {
-      return "Septiembre";
-    }
-    case 10: {
-      return "Octubre";
-    }
-    case 11: {
-      return "Noviembre";
-    }
-    case 12: {
-      return "Diciembre";
-    }
-    default: {
-      return month;
-    }
-  }
-};
-
 closeProcessActa.put("/", async (req, res) => {
+  const fecha = new Date();
+  const horas = fecha.getHours().toString().padStart(2, "0");
+  const minutos = fecha.getMinutes().toString().padStart(2, "0");
+  const formatMonth = (month) => {
+    switch (month + 1) {
+      case 1: {
+        return "Enero";
+      }
+      case 2: {
+        return "Febrero";
+      }
+      case 3: {
+        return "Marzo";
+      }
+      case 4: {
+        return "Abril";
+      }
+      case 5: {
+        return "Mayo";
+      }
+      case 6: {
+        return "Junio";
+      }
+      case 7: {
+        return "Julio";
+      }
+      case 8: {
+        return "Agosto";
+      }
+      case 9: {
+        return "Septiembre";
+      }
+      case 10: {
+        return "Octubre";
+      }
+      case 11: {
+        return "Noviembre";
+      }
+      case 12: {
+        return "Diciembre";
+      }
+      default: {
+        return month;
+      }
+    }
+  };
+
   try {
     //* Depreco el acta actual
     const deprecatedActa = await Acta.findByPk(req.query.acta_id, { include: { all: true, nested: true } });
@@ -63,11 +65,11 @@ closeProcessActa.put("/", async (req, res) => {
       solicitante: deprecatedActa.solicitante,
       caratula: deprecatedActa.caratula,
       estado: "para completar", //! Pongo estado "para completar" para que el FE la reconozca como una copia de un acta
-      processToComplete: "true", //! Agrego flag processToComplete para que la reconozca el template
+      processToComplete: "true", //! Agrego flag processToComplete pary a que la reconozca el template
       dias: fecha.getDate(),
       mes: formatMonth(fecha.getMonth()),
       anio: fecha.getFullYear(),
-      hora: `${fecha.getHours()}:${fecha.getMinutes()}`,
+      hora: `${horas}:${minutos}`,
     });
 
     //* Creo los peritos nuevos a partir de los deprecados
