@@ -74,6 +74,9 @@ module.exports = (sequelize) => {
       unidadAlmacenamientoDetalle: {
         type: DataTypes.STRING,
       },
+      adquisicion: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,

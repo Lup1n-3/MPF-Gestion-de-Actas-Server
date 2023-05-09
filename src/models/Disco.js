@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
       herramientaSoftDisco: {
         type: DataTypes.STRING,
       },
-      tipoExtraccionDisco: {
+      adquisicion: {
         type: DataTypes.STRING,
       },
       discoFallado: {
