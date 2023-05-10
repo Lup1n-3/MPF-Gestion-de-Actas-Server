@@ -1,10 +1,10 @@
 const addEfecto = require("express").Router();
-const { Efecto, Sim, Disco, Sd, Bolsa } = require("../../db");
+const { Efecto, Sim, Disco, Sd, Bolsa, Extraccion } = require("../../db");
 
 addEfecto.post("/", async (req, res) => {
   //* Destructuring de la info
   const { bolsa_id } = req.query;
-  const { efecto, discos, sims, sds } = req.body;
+  const { efecto, discos, sims, sds, extracciones } = req.body;
 
   try {
     //* Actualizo los estados de la bolsa
@@ -37,12 +37,14 @@ addEfecto.post("/", async (req, res) => {
         Sims: sims,
         Discos: discos,
         Sds: sds,
+        Extracciones: extracciones,
       },
       {
         include: [
           { model: Sim, association: Efecto.Sims },
           { model: Disco, association: Efecto.Discos },
           { model: Sd, association: Efecto.Sds },
+          { model: Extraccion, association: Efecto.Extracciones },
         ],
       }
     );
