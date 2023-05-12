@@ -1,5 +1,5 @@
 const closeProcessActa = require("express").Router();
-const { Acta, Perito, Integrante, Bolsa, Efecto, Sd, Sim, Disco } = require("../../db");
+const { Acta, Perito, Integrante, Bolsa, Efecto, Sd, Sim, Disco, Extraccion, TipoExtraccion } = require("../../db");
 
 closeProcessActa.put("/", async (req, res) => {
   const fecha = new Date();
@@ -119,11 +119,8 @@ closeProcessActa.put("/", async (req, res) => {
           serialNumber: e.serialNumber,
           tipoSeguridad: e.tipoSeguridad,
           desbloqueo: e.desbloqueo,
-          herramientaSoft: e.herramientaSoft,
-          tipoExtraccion: e.tipoExtraccion,
           estado: "completo", //! Le cambio el estado a "completo" ya que para esto es esta logica
           processToCompleteEfecto: e.estado === "completo" ? "false" : "", //! Si estaba completo, se imprime resumido, sino normal
-          extraccion: e.extraccion,
           almacenamiento: e.almacenamiento,
           encendido: e.encendido,
           observacionEncendido: e.observacionEncendido,
@@ -133,7 +130,6 @@ closeProcessActa.put("/", async (req, res) => {
           color: e.color,
           unidadAlmacenamientoDetalle: e.unidadAlmacenamientoDetalle,
         });
-
         //* Mapeo y creo cada elemento del Efecto si es que existe
         e.Sds.forEach(async (sd) => {
           await Sd.create({
@@ -165,6 +161,21 @@ closeProcessActa.put("/", async (req, res) => {
             discoFallado: disco.discoFallado,
             observacionFallaDisco: disco.observacionFallaDisco,
             estadoDisco: "completo", //! Cambio el estado del disco tambien
+          });
+        });
+        e.Extraccions.forEach(async (extraccion) => {
+          const newExtraccion = await Extraccion.create({
+            efecto_id: newEfecto.id,
+            herramientaSoft: extraccion.herramientaSoft,
+          });
+
+          extraccion.TipoExtraccions.forEach(async (tipo) => {
+            await TipoExtraccion.create({
+              extraccion_id: newExtraccion.id,
+              nombre: tipo.nombre,
+              estado: tipo.estado,
+              observacionFalla: tipo.observacionFalla,
+            });
           });
         });
       });

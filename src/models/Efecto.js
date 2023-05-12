@@ -28,19 +28,9 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         defaultValue: null,
       },
-      herramientaSoft: {
-        type: DataTypes.STRING,
-        defaultValue: "ninguna",
-      },
-      tipoExtraccion: {
-        type: DataTypes.STRING,
-      },
       estado: {
         type: DataTypes.STRING,
         defaultValue: "en proceso",
-      },
-      extraccion: {
-        type: DataTypes.STRING,
       },
       almacenamiento: {
         type: DataTypes.STRING,
