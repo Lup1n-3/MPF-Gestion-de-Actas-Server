@@ -10,6 +10,9 @@ module.exports = (sequelize) => {
       estado: {
         type: DataTypes.STRING,
       },
+      observacionFalla: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,

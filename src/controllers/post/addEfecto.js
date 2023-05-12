@@ -1,10 +1,11 @@
 const addEfecto = require("express").Router();
-const { Efecto, Sim, Disco, Sd, Bolsa, Extraccion } = require("../../db");
+const { Efecto, Sim, Disco, Sd, Bolsa, Extraccion, TipoExtraccion } = require("../../db");
 
 addEfecto.post("/", async (req, res) => {
   //* Destructuring de la info
   const { bolsa_id } = req.query;
   const { efecto, discos, sims, sds, extracciones } = req.body;
+  console.log("EXTRACCIONES _____>", extracciones);
 
   try {
     //* Actualizo los estados de la bolsa
@@ -37,19 +38,29 @@ addEfecto.post("/", async (req, res) => {
         Sims: sims,
         Discos: discos,
         Sds: sds,
-        Extracciones: extracciones,
       },
       {
         include: [
           { model: Sim, association: Efecto.Sims },
           { model: Disco, association: Efecto.Discos },
           { model: Sd, association: Efecto.Sds },
-          { model: Extraccion, association: Efecto.Extracciones },
         ],
       }
     );
 
-    const finalEfecto = await Efecto.findByPk(newEfecto.id, { include: { all: true } }); //* Me traigo el efecto actulizado con los modelos de Sims, Sds y Discos
+    await Promise.all(
+      extracciones.map(async (e) => {
+        const newExtraccion = await Extraccion.create({ efecto_id: newEfecto.id, herramientaSoft: e.herramientaSoft });
+        await Promise.all(
+          e.tipos.map(async (t) => {
+            const newTipo = { ...t, extraccion_id: newExtraccion.id };
+            await TipoExtraccion.create(newTipo);
+          })
+        );
+      })
+    );
+
+    const finalEfecto = await Efecto.findByPk(newEfecto.id, { include: { all: true, nested: true } }); //* Me traigo el efecto actulizado con los modelos de Sims, Sds y Discos
 
     return res.status(200).json(finalEfecto);
   } catch (err) {
