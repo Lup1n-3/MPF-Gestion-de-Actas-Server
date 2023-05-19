@@ -5,7 +5,6 @@ addEfecto.post("/", async (req, res) => {
   //* Destructuring de la info
   const { bolsa_id } = req.query;
   const { efecto, discos, sims, sds, extracciones } = req.body;
-  console.log("EXTRACCIONES _____>", extracciones);
 
   try {
     //* Actualizo los estados de la bolsa
@@ -14,6 +13,10 @@ addEfecto.post("/", async (req, res) => {
     if (efecto.tipoDeElemento === "notebook" || efecto.tipoDeElemento === "gabinete") {
       //* Logica de actualizacion automatica de estados
       efecto.estado = atLeastOneDiskInProcess ? "en proceso" : "completo";
+    }
+
+    if (efecto.estado === "peritado") {
+      efecto.processToCompleteEfecto = "false"; //* Si ya fue peritado pongo la flag para que renderize la leyenda en el template
     }
 
     const efectos = await Efecto.findAll({ where: { bolsa_id } });
