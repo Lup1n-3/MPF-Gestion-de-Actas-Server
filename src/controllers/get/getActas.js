@@ -3,7 +3,7 @@ const { Acta } = require("../../db");
 
 getActas.get("/", async (req, res) => {
   try {
-    const allActas = await Acta.findAll({ include: { all: true, nested: true } }); //* Me traigo todas las actas con todas sus relaciones
+    const allActas = await Acta.findAll({ include: { all: true, nested: true }, order: [["id", "DESC"]] }); //* Me traigo todas las actas con todas sus relaciones
 
     return res.status(200).json(allActas);
   } catch (err) {

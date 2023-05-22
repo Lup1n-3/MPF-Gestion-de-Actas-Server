@@ -67,6 +67,9 @@ module.exports = (sequelize) => {
       adquisicion: {
         type: DataTypes.STRING,
       },
+      herramientaSoft: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,
