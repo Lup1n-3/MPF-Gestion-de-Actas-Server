@@ -70,6 +70,12 @@ module.exports = (sequelize) => {
       herramientaSoft: {
         type: DataTypes.STRING,
       },
+      empresa: {
+        type: DataTypes.STRING,
+      },
+      tipoExtraccion: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,
