@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       leyenda: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
       },
       nroPrecintoBlanco: {
         type: DataTypes.STRING,
