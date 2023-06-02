@@ -14,6 +14,9 @@ module.exports = (sequelize) => {
       modelo: {
         type: DataTypes.STRING,
       },
+      descripcionElemento: {
+        type: DataTypes.STRING,
+      },
       imei: {
         type: DataTypes.STRING,
       },

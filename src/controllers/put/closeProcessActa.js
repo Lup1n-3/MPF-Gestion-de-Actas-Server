@@ -73,6 +73,7 @@ closeProcessActa.put("/", async (req, res) => {
           tipoDeElemento: e.tipoDeElemento,
           marca: e.marca,
           modelo: e.modelo,
+          descripcionElemento: e.descripcionElemento,
           imei: e.imei,
           serialNumber: e.serialNumber,
           tipoSeguridad: e.tipoSeguridad,
