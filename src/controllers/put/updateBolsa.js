@@ -8,7 +8,7 @@ const changeStates = async (acta_id) => {
   const bagsCompletedToClose = acta.Bolsas.filter((b) => b.estado === "abierta con efectos completos");
   //* Bolsas cerradas
   const bagsInProcess = acta.Bolsas.filter(
-    (b) => b.estado === "cerrada en proceso" || b.estado === "abierta con elementos en proceso"
+    (b) => b.estado === "cerrada en proceso" || b.estado === "abierta en proceso con elementos completos"
   );
   const bagsCompleted = acta.Bolsas.filter((b) => b.estado === "cerrada");
 
@@ -56,7 +56,7 @@ updateBolsa.put("/:leaveInProcess", async (req, res) => {
     if (!bolsa) {
       return res.status(404).send("Bolsa no encontrada");
     }
-    await Bolsa.update({ estado: "abierta con elementos en proceso" }, { where: { id: id } });
+    await Bolsa.update({ estado: "abierta en proceso con elementos completos" }, { where: { id: id } });
 
     await changeStates(bolsa.acta_id); //* Actualizo estados
 
