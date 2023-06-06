@@ -6,7 +6,7 @@ removeActa.delete("/", async (req, res) => {
     const response = await Acta.destroy({ where: { id: req.query.acta_id } }); //* Elimino el acta
     if (!response) return res.status(404).send("Bolsa no encontrada");
 
-    const newActas = await Acta.findAll({ include: { all: true, nested: true } }); //* Me traigo las demas actas y las mando al FE
+    const newActas = await Acta.findAll({ include: { all: true, nested: true }, order: [["id", "DESC"]] }); //* Me traigo las demas actas y las mando al FE
 
     return res.status(200).send(newActas);
   } catch (err) {
