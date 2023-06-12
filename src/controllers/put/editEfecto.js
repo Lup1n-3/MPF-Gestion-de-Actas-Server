@@ -55,22 +55,34 @@ editEfecto.put("/", async (req, res) => {
       extracciones.map(async (extraccion) => {
         if (extraccion.edit) {
           await Extraccion.update(extraccion, { where: { id: extraccion.id } });
+          await Promise.all(
+            extraccion.TipoExtraccions.map(async (tEx) => {
+              if (!tEx.id) {
+                await TipoExtraccion.create({
+                  nombre: tEx.nombre,
+                  estado: tEx.estado,
+                  observacionFalla: tEx.observacionFalla,
+                  extraccion_id: extraccion.id,
+                });
+              }
+            })
+          );
         } else {
-          await Extraccion.create({ ...extraccion, efecto_id: efecto.id });
+          const newExtraccion = await Extraccion.create({ ...extraccion, efecto_id: efecto.id });
+          //* Crea y relaciona los nuevos tipos de extracción
+          await Promise.all(
+            extraccion.TipoExtraccions.map(async (tEx) => {
+              if (!tEx.id) {
+                await TipoExtraccion.create({
+                  nombre: tEx.nombre,
+                  estado: tEx.estado,
+                  observacionFalla: tEx.observacionFalla,
+                  extraccion_id: newExtraccion.id,
+                });
+              }
+            })
+          );
         }
-        //* Crea y relaciona los nuevos tipos de extracción
-        await Promise.all(
-          extraccion.TipoExtraccions.map(async (tEx) => {
-            if (!tEx.id) {
-              await TipoExtraccion.create({
-                nombre: tEx.nombre,
-                estado: tEx.estado,
-                observacionFalla: tEx.observacionFalla,
-                extraccion_id: extraccion.id,
-              });
-            }
-          })
-        );
       })
     );
 
