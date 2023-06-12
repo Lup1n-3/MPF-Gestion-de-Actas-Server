@@ -25,8 +25,8 @@ const removePerito = require("../controllers/delete/removePerito");
 const removeBolsa = require("../controllers/delete/removeBolsa");
 const removeEfecto = require("../controllers/delete/removeEfecto");
 const removeActa = require("../controllers/delete/removeActa");
+const removeTipoExtraccion = require("../controllers/delete/removeTipoExtraccion");
 
-//* Generamos las rutas
 //* Post
 router.use("/addActa", addActa);
 router.use("/addEfecto", addEfecto);
@@ -52,5 +52,6 @@ router.use("/removePerito", removePerito);
 router.use("/removeBolsa", removeBolsa);
 router.use("/removeEfecto", removeEfecto);
 router.use("/removeActa", removeActa);
+router.use("/removeTipoExtraccion", removeTipoExtraccion);
 
 module.exports = router;

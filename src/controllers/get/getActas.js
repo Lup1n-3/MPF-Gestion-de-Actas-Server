@@ -18,8 +18,6 @@ getActas.get("/:id", async (req, res) => {
   try {
     const acta = await Acta.findByPk(id, { include: { all: true, nested: true } }); //* Me traigo el acta con todas sus relaciones
 
-    console.log("-----> ACTA", acta);
-
     return res.status(200).json(acta);
   } catch (err) {
     console.log(err);
