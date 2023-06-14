@@ -60,6 +60,7 @@ closeProcessActa.put("/", async (req, res) => {
         colorPrecinto: b.colorPrecinto,
         observaciones: b.observaciones,
         leyenda: b.leyenda,
+        fecha: b.fecha,
         nroPrecintoBlanco: b.estado === "cerrada" ? b.nroPrecintoBlanco : null, //! Si estaba cerrada, queda cerrada. Sino, queda sin precinto
         estado: b.estado === "cerrada" ? b.estado : "abierta con efectos completos", //! Si estaba cerrada, queda cerrada. Sino, cambio estado para que permita el cierre
         processToCompleteBolsa: b.estado === "cerrada" ? "false" : "true", //! Si estaba cerrada, no se imprime en el template. Sino, si
