@@ -2,22 +2,22 @@ const addEfecto = require("express").Router();
 const { Efecto, Sim, Disco, Sd, Bolsa, Extraccion, TipoExtraccion } = require("../../db");
 
 addEfecto.post("/", async (req, res) => {
-  //* Destructuring de la info
-  const { bolsa_id } = req.query;
-  const { efecto, discos, sims, sds, extracciones } = req.body;
-  console.log("EXTRACCIONES _____>", extracciones);
-
   try {
-    //* Actualizo los estados de la bolsa
+    console.log(req.body);
+    const { bolsa_id } = req.query;
+    const { efecto, discos, sims, sds, extracciones } = req.body;
+
     const atLeastOneDiskInProcess = discos.some((d) => d.estadoDisco === "en proceso");
 
-    if (efecto.tipoDeElemento === "notebook" || efecto.tipoDeElemento === "gabinete") {
-      //* Logica de actualizacion automatica de estados
+    if (["notebook", "gabinete"].includes(efecto.tipoDeElemento)) {
       efecto.estado = atLeastOneDiskInProcess ? "en proceso" : "completo";
     }
 
-    const efectos = await Efecto.findAll({ where: { bolsa_id } });
+    if (efecto.estado === "peritado") {
+      efecto.processToCompleteEfecto = "false";
+    }
 
+    const efectos = await Efecto.findAll({ where: { bolsa_id } });
     const allEffectsComplete = efectos.every((e) => e.estado === "completo");
 
     const bolsaEstado =
@@ -39,20 +39,15 @@ addEfecto.post("/", async (req, res) => {
         Discos: discos,
         Sds: sds,
       },
-      {
-        include: [
-          { model: Sim, association: Efecto.Sims },
-          { model: Disco, association: Efecto.Discos },
-          { model: Sd, association: Efecto.Sds },
-        ],
-      }
+      { include: [Sim, Disco, Sd] }
     );
 
     await Promise.all(
       extracciones.map(async (e) => {
         const newExtraccion = await Extraccion.create({ efecto_id: newEfecto.id, herramientaSoft: e.herramientaSoft });
+
         await Promise.all(
-          e.tipos.map(async (t) => {
+          e.tipoExtraccions.map(async (t) => {
             const newTipo = { ...t, extraccion_id: newExtraccion.id };
             await TipoExtraccion.create(newTipo);
           })
@@ -60,7 +55,7 @@ addEfecto.post("/", async (req, res) => {
       })
     );
 
-    const finalEfecto = await Efecto.findByPk(newEfecto.id, { include: { all: true, nested: true } }); //* Me traigo el efecto actulizado con los modelos de Sims, Sds y Discos
+    const finalEfecto = await Efecto.findByPk(newEfecto.id, { include: [Sim, Disco, Sd] });
 
     return res.status(200).json(finalEfecto);
   } catch (err) {

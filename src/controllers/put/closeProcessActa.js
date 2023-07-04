@@ -5,49 +5,7 @@ closeProcessActa.put("/", async (req, res) => {
   const fecha = new Date();
   const horas = fecha.getHours().toString().padStart(2, "0");
   const minutos = fecha.getMinutes().toString().padStart(2, "0");
-  const formatMonth = (month) => {
-    switch (month + 1) {
-      case 1: {
-        return "Enero";
-      }
-      case 2: {
-        return "Febrero";
-      }
-      case 3: {
-        return "Marzo";
-      }
-      case 4: {
-        return "Abril";
-      }
-      case 5: {
-        return "Mayo";
-      }
-      case 6: {
-        return "Junio";
-      }
-      case 7: {
-        return "Julio";
-      }
-      case 8: {
-        return "Agosto";
-      }
-      case 9: {
-        return "Septiembre";
-      }
-      case 10: {
-        return "Octubre";
-      }
-      case 11: {
-        return "Noviembre";
-      }
-      case 12: {
-        return "Diciembre";
-      }
-      default: {
-        return month;
-      }
-    }
-  };
+  let mes = new Intl.DateTimeFormat("es-ES", { month: "long" }).format(fecha);
 
   try {
     //* Depreco el acta actual
@@ -67,7 +25,7 @@ closeProcessActa.put("/", async (req, res) => {
       estado: "para completar", //! Pongo estado "para completar" para que el FE la reconozca como una copia de un acta
       processToComplete: "true", //! Agrego flag processToComplete pary a que la reconozca el template
       dias: fecha.getDate(),
-      mes: formatMonth(fecha.getMonth()),
+      mes: mes.charAt(0).toUpperCase() + mes.slice(1),
       anio: fecha.getFullYear(),
       hora: `${horas}:${minutos}`,
     });
@@ -102,6 +60,7 @@ closeProcessActa.put("/", async (req, res) => {
         colorPrecinto: b.colorPrecinto,
         observaciones: b.observaciones,
         leyenda: b.leyenda,
+        fecha: b.fecha,
         nroPrecintoBlanco: b.estado === "cerrada" ? b.nroPrecintoBlanco : null, //! Si estaba cerrada, queda cerrada. Sino, queda sin precinto
         estado: b.estado === "cerrada" ? b.estado : "abierta con efectos completos", //! Si estaba cerrada, queda cerrada. Sino, cambio estado para que permita el cierre
         processToCompleteBolsa: b.estado === "cerrada" ? "false" : "true", //! Si estaba cerrada, no se imprime en el template. Sino, si
@@ -115,6 +74,7 @@ closeProcessActa.put("/", async (req, res) => {
           tipoDeElemento: e.tipoDeElemento,
           marca: e.marca,
           modelo: e.modelo,
+          descripcionElemento: e.descripcionElemento,
           imei: e.imei,
           serialNumber: e.serialNumber,
           tipoSeguridad: e.tipoSeguridad,

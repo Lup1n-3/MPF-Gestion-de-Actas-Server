@@ -1,8 +1,8 @@
 const editEfecto = require("express").Router();
-const { Acta, Efecto, Sim, Sd, Disco, Bolsa } = require("../../db");
+const { Acta, Efecto, Sim, Sd, Disco, Bolsa, Extraccion, TipoExtraccion } = require("../../db");
 
 editEfecto.put("/", async (req, res) => {
-  const { efecto, discos, sims, sds, acta_id } = req.body;
+  const { efecto, discos, sims, sds, extracciones, acta_id } = req.body;
 
   try {
     //* Actualiza el efecto existente
@@ -46,6 +46,42 @@ editEfecto.put("/", async (req, res) => {
         } else {
           const nuevoDisco = await Disco.create({ ...disco, efecto_id: efecto.id });
           return nuevoDisco;
+        }
+      })
+    );
+
+    //* Crea y relaciona las nuevas extracciones
+    await Promise.all(
+      extracciones.map(async (extraccion) => {
+        if (extraccion.edit) {
+          await Extraccion.update(extraccion, { where: { id: extraccion.id } });
+          await Promise.all(
+            extraccion.TipoExtraccions.map(async (tEx) => {
+              if (!tEx.id) {
+                await TipoExtraccion.create({
+                  nombre: tEx.nombre,
+                  estado: tEx.estado,
+                  observacionFalla: tEx.observacionFalla,
+                  extraccion_id: extraccion.id,
+                });
+              }
+            })
+          );
+        } else {
+          const newExtraccion = await Extraccion.create({ ...extraccion, efecto_id: efecto.id });
+          //* Crea y relaciona los nuevos tipos de extracción
+          await Promise.all(
+            extraccion.TipoExtraccions.map(async (tEx) => {
+              if (!tEx.id) {
+                await TipoExtraccion.create({
+                  nombre: tEx.nombre,
+                  estado: tEx.estado,
+                  observacionFalla: tEx.observacionFalla,
+                  extraccion_id: newExtraccion.id,
+                });
+              }
+            })
+          );
         }
       })
     );

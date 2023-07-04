@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
       },
 
       legajoOMatricula: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
       },
       locacion: {
         type: DataTypes.STRING,

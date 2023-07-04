@@ -14,6 +14,9 @@ module.exports = (sequelize) => {
       modelo: {
         type: DataTypes.STRING,
       },
+      descripcionElemento: {
+        type: DataTypes.STRING,
+      },
       imei: {
         type: DataTypes.STRING,
       },
@@ -65,6 +68,15 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       adquisicion: {
+        type: DataTypes.STRING,
+      },
+      herramientaSoft: {
+        type: DataTypes.STRING,
+      },
+      empresa: {
+        type: DataTypes.STRING,
+      },
+      tipoExtraccion: {
         type: DataTypes.STRING,
       },
     },
