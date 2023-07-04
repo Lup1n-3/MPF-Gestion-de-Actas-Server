@@ -3,11 +3,12 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
 const sequelize = new Sequelize(process.env.MYSQLDB_DATABASE, "root", process.env.MYSQLDB_ROOT_PASSWORD, {
-  //* Conexion con DB
   dialect: "mysql",
-  host: process.env.MYSQLDB_HOST,
-  port: process.env.MYSQLDB_DOCKER_PORT,
+  host: isDevelopment ? "localhost" : process.env.MYSQLDB_HOST,
+  port: isDevelopment ? 3306 : process.env.MYSQLDB_DOCKER_PORT,
   logging: false,
 });
 

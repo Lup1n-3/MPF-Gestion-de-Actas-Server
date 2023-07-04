@@ -4,6 +4,8 @@ services:
     build:
       context: ../MPF-Gestion-de-Actas-Client
       dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
     ports:
       - 3000:3000
     depends_on:
@@ -12,6 +14,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     depends_on:
