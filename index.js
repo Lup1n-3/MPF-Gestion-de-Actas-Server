@@ -1,12 +1,11 @@
 const server = require("./src/app.js");
 const { db } = require("./src/db.js");
-const { PORT } = require("./config.js");
 
 //* {force: true} Pisa la DB cada vez que se salva el Backend
 //* {alter: true} alterna las tablas cada vez que se salva el Backend
 
-db.sync({ alter: true }).then(() => {
-  server.listen(PORT, () => {
-    console.log("--->   Servidor en puerto", PORT); // eslint-disable-line no-console
-  });
+db.sync({ force: true }).then(() => {
+  server.listen(process.env.NODE_LOCAL_PORT, () => {
+    console.log("--->   Servidor en puerto", process.env.NODE_LOCAL_PORT); // eslint-disable-line no-console
+  });   
 });
