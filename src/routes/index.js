@@ -13,6 +13,7 @@ const getActas = require("../controllers/get/getActas");
 const getBugsReports = require("../controllers/get/getBugsReports");
 const getUpdatedBolsas = require("../controllers/get/getUpdatedBolsas");
 const getUsers = require("../controllers/get/getUsers");
+const getIntervenciones = require("../controllers/get/getIntervenciones");
 //* Put
 const updateBolsa = require("../controllers/put/updateBolsa");
 const updateActa = require("../controllers/put/updateActa");
@@ -42,6 +43,8 @@ router.use("/getActas", getActas);
 router.use("/getBugsReports", getBugsReports);
 router.use("/getUpdatedBolsas", getUpdatedBolsas);
 router.use("/getUsers", getUsers);
+router.use("/getIntervenciones", getIntervenciones);
+
 //* Put
 router.use("/updateBolsa", updateBolsa);
 router.use("/updateActa", updateActa);
