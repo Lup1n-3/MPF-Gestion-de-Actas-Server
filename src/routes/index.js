@@ -1,5 +1,4 @@
 const router = require("express").Router();
-//* Importamos los Endpoints
 //* Post
 const addActa = require("../controllers/post/addActa");
 const addEfecto = require("../controllers/post/addEfecto");
@@ -8,6 +7,7 @@ const addPeritos = require("../controllers/post/addPeritos");
 const addIntegrantes = require("../controllers/post/addIntegrantes");
 const createBugReport = require("../controllers/post/createBugReport");
 const addUser = require("../controllers/post/addUser");
+const addIntervencion = require("../controllers/post/addIntervencion");
 //* Get
 const getActas = require("../controllers/get/getActas");
 const getBugsReports = require("../controllers/get/getBugsReports");
@@ -18,7 +18,6 @@ const updateBolsa = require("../controllers/put/updateBolsa");
 const updateActa = require("../controllers/put/updateActa");
 const closeProcessActa = require("../controllers/put/closeProcessActa");
 const editEfecto = require("../controllers/put/editEfecto");
-
 //* Delete
 const removeIntegrante = require("../controllers/delete/removeIntegrante");
 const removePerito = require("../controllers/delete/removePerito");
@@ -36,6 +35,8 @@ router.use("/addPeritos", addPeritos);
 router.use("/addIntegrantes", addIntegrantes);
 router.use("/createBugReport", createBugReport);
 router.use("/addUser", addUser);
+router.use("/addIntervencion", addIntervencion);
+
 //* Get
 router.use("/getActas", getActas);
 router.use("/getBugsReports", getBugsReports);
@@ -46,7 +47,6 @@ router.use("/updateBolsa", updateBolsa);
 router.use("/updateActa", updateActa);
 router.use("/closeProcessActa", closeProcessActa);
 router.use("/editEfecto", editEfecto);
-
 //* Delete
 router.use("/removeIntegrante", removeIntegrante);
 router.use("/removePerito", removePerito);
