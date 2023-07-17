@@ -3,12 +3,15 @@ const { Intervencion, Actor } = require("../../db");
 
 addIntervencion.post("/", async (req, res) => {
   try {
-    const intervencion = await Intervencion.create(req.body.intervencion);
-    const actoresWithId = req.body.actores.map((a) => {
-      return { ...a, intervencion_id: intervencion.id };
-    });
+    const intervencion = await Intervencion.create(req.body.values);
 
-    await Actor.bulkCreate(actoresWithId);
+    if (req.body.actores) {
+      const actoresWithId = req.body.actores.map((a) => {
+        return { ...a, intervencion_id: intervencion.id };
+      });
+
+      await Actor.bulkCreate(actoresWithId);
+    }
 
     const finalIntervencion = await Intervencion.findOne({
       where: { id: intervencion.id },

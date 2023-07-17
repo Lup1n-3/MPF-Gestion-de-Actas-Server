@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
       legajo: {
         type: DataTypes.STRING,
       },
+      lugar: {
+        type: DataTypes.STRING,
+      },
       articulos: {
         type: DataTypes.STRING,
       },
