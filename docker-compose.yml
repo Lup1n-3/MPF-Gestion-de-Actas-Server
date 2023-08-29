@@ -4,19 +4,9 @@ services:
     build:
       context: ../MPF-Gestion-de-Actas-Client
       dockerfile: Dockerfile
-    x-develop:
-      watch:
-        - action: sync
-          path: ../MPF-Gestion-de-Actas-Client
-          target: /src
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: package.json
-    environment:
-      - NODE_ENV=production
     ports:
-      - 3000:3000
+      - 8080:80
+      - 3000:80
     depends_on:
       - backend
   backend:
