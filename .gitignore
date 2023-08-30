@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.env
 
 # testing
 /coverage
@@ -26,4 +27,3 @@ yarn-error.log*
 trash.txt
 config.js
 db-data
-.env
