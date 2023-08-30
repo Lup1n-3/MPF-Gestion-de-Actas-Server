@@ -4,6 +4,10 @@ services:
     build:
       context: ../MPF-Gestion-de-Actas-Client
       dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    environment:
+      - BACKEND_ENV=$BACKEND_ENV
     ports:
       - 8080:80
       - 3000:80
@@ -33,7 +37,17 @@ services:
     volumes:
       - ./db-data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      test:
+        [
+          "CMD",
+          'mysqladmin',
+          'ping',
+          '-h',
+          'localhost',
+          '-u',
+          'root',
+          '-p$$MYSQL_ROOT_PASSWORD'
+        ]
       interval: 1m30s
       timeout: 10s
       retries: 3
