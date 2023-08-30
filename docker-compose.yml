@@ -4,12 +4,8 @@ services:
     build:
       context: ../MPF-Gestion-de-Actas-Client
       dockerfile: Dockerfile
-    env_file:
-      - ./.env
-    environment:
-      - BACKEND_ENV=$BACKEND_ENV
     ports:
-      - 8080:80
+      - 3030:80
       - 3000:80
     depends_on:
       - backend
@@ -17,8 +13,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - NODE_ENV=production
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     depends_on:
@@ -36,6 +30,7 @@ services:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     volumes:
       - ./db-data:/var/lib/mysql
+      - ./db-data-backup:/var/lib/mysql
     healthcheck:
       test:
         [
