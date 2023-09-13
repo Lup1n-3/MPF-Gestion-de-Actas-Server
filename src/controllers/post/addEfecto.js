@@ -47,7 +47,7 @@ addEfecto.post("/", async (req, res) => {
         const newExtraccion = await Extraccion.create({ efecto_id: newEfecto.id, herramientaSoft: e.herramientaSoft });
 
         await Promise.all(
-          e.tipoExtraccions.map(async (t) => {
+          e.TipoExtraccions.map(async (t) => {
             const newTipo = { ...t, extraccion_id: newExtraccion.id };
             await TipoExtraccion.create(newTipo);
           })
