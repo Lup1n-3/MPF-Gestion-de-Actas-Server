@@ -27,12 +27,7 @@ module.exports = (sequelize) => {
       },
       fecha: {
         type: DataTypes.STRING,
-        defaultValue: new Date().toLocaleDateString("es-ES", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }),
+        defaultValue: null,
       },
       complete: {
         type: DataTypes.STRING,
@@ -40,7 +35,7 @@ module.exports = (sequelize) => {
       },
       processToCompleteBolsa: {
         type: DataTypes.STRING,
-        defaultValue: "true",
+        defaultValue: null,
       },
     },
     {
