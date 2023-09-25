@@ -20,6 +20,7 @@ const updateActa = require("../controllers/put/updateActa");
 const closeProcessActa = require("../controllers/put/closeProcessActa");
 const editEfecto = require("../controllers/put/editEfecto");
 const downIntervencion = require("../controllers/put/downIntervencion");
+const addPropsToBolsa = require("../controllers/put/addPropsToBolsa");
 //* Delete
 const removeIntegrante = require("../controllers/delete/removeIntegrante");
 const removePerito = require("../controllers/delete/removePerito");
@@ -52,6 +53,7 @@ router.use("/updateActa", updateActa);
 router.use("/closeProcessActa", closeProcessActa);
 router.use("/editEfecto", editEfecto);
 router.use("/downIntervencion", downIntervencion);
+router.use("/addPropsToBolsa", addPropsToBolsa);
 
 //* Delete
 router.use("/removeIntegrante", removeIntegrante);

@@ -34,6 +34,10 @@ module.exports = (sequelize) => {
           day: "numeric",
         }),
       },
+      complete: {
+        type: DataTypes.STRING,
+        defaultValue: null,
+      },
       processToCompleteBolsa: {
         type: DataTypes.STRING,
         defaultValue: "true",
