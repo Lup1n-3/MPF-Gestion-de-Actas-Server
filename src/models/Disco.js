@@ -22,6 +22,9 @@ module.exports = (sequelize) => {
       herramientaSoftDisco: {
         type: DataTypes.STRING,
       },
+      herramientaSoftDiscoVersion: {
+        type: DataTypes.STRING,
+      },
       adquisicion: {
         type: DataTypes.STRING,
       },

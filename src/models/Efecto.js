@@ -73,6 +73,9 @@ module.exports = (sequelize) => {
       herramientaSoft: {
         type: DataTypes.STRING,
       },
+      herramientaSoftVersion: {
+        type: DataTypes.STRING,
+      },
       empresa: {
         type: DataTypes.STRING,
       },
