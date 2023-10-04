@@ -37,6 +37,9 @@ module.exports = (sequelize) => {
       estadoDisco: {
         type: DataTypes.STRING,
       },
+      processToCompleteDiscco: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,

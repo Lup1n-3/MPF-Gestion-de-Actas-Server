@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
       tipoExtraccionSim: {
         type: DataTypes.STRING,
       },
+      processToCompleteSim: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,
