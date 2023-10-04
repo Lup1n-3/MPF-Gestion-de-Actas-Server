@@ -1,5 +1,5 @@
 const addPropsToEfecto = require("express").Router();
-const { Sim, Sd, Disco } = require("../../db");
+const { Efecto, Sim, Sd, Disco } = require("../../db");
 
 addPropsToEfecto.put("/", async (req, res) => {
   const { id, type } = req.body;
@@ -35,6 +35,20 @@ addPropsToEfecto.put("/", async (req, res) => {
         return res.status(500).send(err);
       }
       break;
+  }
+
+  return res.status(201);
+});
+
+addPropsToEfecto.put("/2", async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const efecto = await Efecto.findOne({ where: { id: id } });
+    efecto.processToCompleteEfecto = "true";
+    efecto.save();
+  } catch (error) {
+    console.log(error);
   }
 
   return res.status(201);
