@@ -3,7 +3,6 @@ const { Efecto, Sim, Disco, Sd, Bolsa, Extraccion, TipoExtraccion } = require(".
 
 addEfecto.post("/", async (req, res) => {
   try {
-    console.log(req.body);
     const { bolsa_id } = req.query;
     const { efecto, discos, sims, sds, extracciones } = req.body;
 

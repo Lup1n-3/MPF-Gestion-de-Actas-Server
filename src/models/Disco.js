@@ -22,6 +22,9 @@ module.exports = (sequelize) => {
       herramientaSoftDisco: {
         type: DataTypes.STRING,
       },
+      herramientaSoftDiscoVersion: {
+        type: DataTypes.STRING,
+      },
       adquisicion: {
         type: DataTypes.STRING,
       },
@@ -32,6 +35,9 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
       },
       estadoDisco: {
+        type: DataTypes.STRING,
+      },
+      processToCompleteDisco: {
         type: DataTypes.STRING,
       },
     },
