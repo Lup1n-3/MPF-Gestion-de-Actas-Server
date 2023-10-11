@@ -82,6 +82,15 @@ module.exports = (sequelize) => {
       tipoExtraccion: {
         type: DataTypes.STRING,
       },
+      cantidadTotal: {
+        type: DataTypes.STRING,
+      },
+      cantidadInteres: {
+        type: DataTypes.STRING,
+      },
+      interes: {
+        type: DataTypes.STRING,
+      },
     },
     {
       timestamps: false,
