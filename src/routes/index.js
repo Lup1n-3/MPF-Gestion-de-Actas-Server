@@ -24,6 +24,7 @@ const addPropsToBolsa = require("../controllers/put/addPropsToBolsa");
 const addPropsToActa = require("../controllers/put/addPropsToActa");
 const completeTExtraccion = require("../controllers/put/completeTExtraccion");
 const addPropsToEfecto = require("../controllers/put/addPropsToEfecto");
+const updateWhiteTag = require("../controllers/put/updateWhiteTag");
 //* Delete
 const removeIntegrante = require("../controllers/delete/removeIntegrante");
 const removePerito = require("../controllers/delete/removePerito");
@@ -60,6 +61,7 @@ router.use("/addPropsToBolsa", addPropsToBolsa);
 router.use("/addPropsToActa", addPropsToActa);
 router.use("/completeTExtraccion", completeTExtraccion);
 router.use("/addPropsToEfecto", addPropsToEfecto);
+router.use("/updateWhiteTag", updateWhiteTag);
 
 //* Delete
 router.use("/removeIntegrante", removeIntegrante);
