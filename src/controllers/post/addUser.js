@@ -39,4 +39,27 @@ addUser.post("/", async (req, res) => {
   }
 });
 
+addUser.put("/", async (req, res) => {
+  const user = req.body;
+
+  try {
+    const dbUser = await User.findOne({ where: { id: user.id } });
+
+    await dbUser.update({
+      nombreYApellido: user.nombreYApellido,
+      legajo: user.legajo,
+      cargo: user.cargo,
+      username: user.username,
+      password: user.password,
+    });
+
+    const allUsers = await User.findAll();
+
+    return res.status(200).json(allUsers);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error al crear o modificar el usuario" });
+  }
+});
+
 module.exports = addUser;
